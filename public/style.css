@@ -1,0 +1,5 @@
+:root { color-scheme: dark; }
+html, body { margin: 0; background: #0b0b0c; color: #e8e2d6; }
+main { min-height: 100svh; display: grid; place-content: center; text-align: center; font-family: system-ui, sans-serif; }
+h1 { margin: .2em 0; font-size: clamp(3rem, 12vw, 8rem); letter-spacing: .04em; }
+.small { margin: 0; font-family: ui-monospace, monospace; color: #a9a39a; }
