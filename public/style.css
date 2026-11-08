@@ -42,7 +42,6 @@
   --manila: #cbb88c;
   --manila-ink: #1d1a14;
   --manila-mid: #4a4234;
-  --tbd: #f2c94c;
   --display: "Pirata One", "UnifrakturCook", Georgia, serif;
   --sans: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
@@ -570,7 +569,8 @@ html.blink #omen-lid-bottom { animation: omen-blink .3s ease-in-out; }
 .foot-mark { color: var(--bone); letter-spacing: .18em; text-transform: uppercase; }
 .foot p { text-wrap: balance; }
 .foot p + p { margin-top: .15rem; }
-.foot .tbd { margin-top: .75rem; }
+.foot-link { margin-top: .75rem; }
+.label-body a, .foot a { text-decoration: underline; text-underline-offset: .2em; }
 .eggs:empty { display: none; }
 
 /* ---------- Eggs (SLRM-1785), all added by omen.js ---------- */
@@ -615,16 +615,3 @@ html.blink #omen-lid-bottom { animation: omen-blink .3s ease-in-out; }
   text-wrap: balance;
 }
 
-/* ---------- Unanswered questions, visible on purpose ---------- */
-
-.tbd {
-  display: inline-block;
-  margin-left: .25em;
-  padding: .15em .55em;
-  border: 1px dashed var(--tbd);
-  color: var(--tbd);
-  font: .75rem/1.5 var(--mono);
-  letter-spacing: .02em;
-  text-transform: none;
-  vertical-align: .1em;
-}
