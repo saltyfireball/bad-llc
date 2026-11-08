@@ -29,7 +29,8 @@ for asset in style.css omen.js; do
   [ -f "public/$asset" ] || continue
   hash="$(shasum -a 256 "public/$asset" | cut -c1-12)"
   for page in "$stage"/*.html; do
-    sed -i '' "s|\"$asset\"|\"$asset?v=$hash\"|" "$page"
+    # 404.html is served at any depth, so it links root-relative: "/style.css".
+    sed -i '' "s|\"\(/\{0,1\}\)$asset\"|\"\1$asset?v=$hash\"|" "$page"
   done
 done
 

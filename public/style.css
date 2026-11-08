@@ -126,7 +126,51 @@ a { color: inherit; }
   width: min(240px, 52vw);
   margin-bottom: clamp(1.25rem, 3vh, 2rem);
 }
-.mark img { width: 100%; }
+.mark svg,
+.mark img { display: block; width: 100%; height: auto; }
+
+/* ---------- Ident (SLRM-1782) ----------
+   Decoration only: the hero text paints at once. 0-.8s ring and eye fade in,
+   .7-1.2s the raven drops onto the ring, 1.2-1.65s head tilt, 1.7-2s blink,
+   2-2.5s the kicker settles in. html.ident-off (omen.js: seen this visit, or a
+   click or key) and reduced motion show the end state. */
+
+#omen-lid-top,
+#omen-lid-bottom { transform-box: view-box; }
+#omen-lid-top { transform-origin: 120px 90px; }
+#omen-lid-bottom { transform-origin: 120px 150px; }
+#raven-head { transform-box: fill-box; transform-origin: 71% 88%; }
+
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.ident-off) #omen-ring { animation: omen-fade .6s ease-out both; }
+  html:not(.ident-off) #omen-eye,
+  html:not(.ident-off) #omen-eye-outline { animation: omen-fade .5s .3s ease-out both; }
+  html:not(.ident-off) #raven-drop { animation: omen-drop .5s .7s both; }
+  html:not(.ident-off) #raven-head { animation: omen-tilt .45s 1.2s ease-in-out both; }
+  html:not(.ident-off) #omen-lid-top,
+  html:not(.ident-off) #omen-lid-bottom { animation: omen-blink .3s 1.7s ease-in-out both; }
+  html:not(.ident-off) .hero-pre { animation: omen-settle .5s 2s ease-out both; }
+}
+/* The Konami blink, on request, motion preference or not: it is one blink. */
+html.blink #omen-lid-top,
+html.blink #omen-lid-bottom { animation: omen-blink .3s ease-in-out; }
+
+@keyframes omen-fade { from { opacity: 0; } }
+@keyframes omen-drop {
+  0% { opacity: 0; transform: translateY(-90px); animation-timing-function: cubic-bezier(.5, 0, 1, 1); }
+  30% { opacity: 1; }
+  70% { transform: translateY(0); animation-timing-function: ease-out; }
+  84% { transform: translateY(-5px); animation-timing-function: ease-in; }
+  100% { transform: translateY(0); }
+}
+@keyframes omen-tilt {
+  30%, 65% { transform: rotate(-13deg); }
+}
+@keyframes omen-blink {
+  0%, 100% { transform: scaleY(0); }
+  45%, 55% { transform: scaleY(1); }
+}
+@keyframes omen-settle { from { opacity: 0; transform: translateY(.6em); } }
 
 .hero-pre,
 .hero-post {
@@ -528,6 +572,48 @@ a { color: inherit; }
 .foot p + p { margin-top: .15rem; }
 .foot .tbd { margin-top: .75rem; }
 .eggs:empty { display: none; }
+
+/* ---------- Eggs (SLRM-1785), all added by omen.js ---------- */
+
+.eggs { margin-bottom: 2rem; }
+.nope {
+  min-height: 2.75rem;
+  padding: .8rem 1.25rem .75rem;
+  border: 2px solid var(--red);
+  background: transparent;
+  color: var(--bone);
+  font: .75rem/1 var(--mono);
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+@media (hover: hover) {
+  .nope:hover { background: var(--red); }
+}
+.nope:active { transform: translateY(1px); }
+.nope-msg { min-height: 1.8em; margin-top: .75rem; color: var(--bone); }
+
+.perch {
+  position: fixed;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: 0;
+  z-index: 5;
+  width: 3.5rem;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .perch { animation: omen-drop .5s both; }
+}
+
+/* ---------- 404 ---------- */
+
+.lost .mark { width: min(150px, 40vw); }
+.lost h1 {
+  max-width: 14ch;
+  margin: .5rem 0 1rem;
+  font: 400 clamp(2.75rem, 9vw, 5.5rem)/.95 var(--display);
+  text-wrap: balance;
+}
 
 /* ---------- Unanswered questions, visible on purpose ---------- */
 
