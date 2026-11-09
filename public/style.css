@@ -140,6 +140,55 @@ html.blink #omen-lid-bottom { animation: omen-blink .3s ease-in-out; }
   color: var(--bo-bone);
 }
 
+/* ---------- Duet (SLRM-1921) ----------
+   Cassandra and Carrie in one frame under the wordmark. The stills are the page without script;
+   duet.js lays the kit's video and canvas over each (kit/v1/portrait.css). Both images are baked on
+   --bo-ink-2, so the two sides meet without a seam. The columns follow the two stills' aspect
+   ratios (350x420 and 240x300), so both are the same height. */
+
+.duet {
+  width: min(100%, 32rem);
+  margin: .4rem 0 1.6rem;
+  border: 1px solid var(--bo-line);
+  background: var(--bo-ink-2);
+}
+.duet-bar {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .55rem .8rem .5rem;
+  border-bottom: 1px solid var(--bo-line);
+  border-left: 4px solid var(--bo-red);
+  font: .6875rem/1 var(--bo-mono);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--bo-ash-lt);
+}
+.duet-rec {
+  width: .5rem;
+  height: .5rem;
+  border-radius: 50%;
+  background: var(--bo-red);
+}
+.duet-cam { margin-left: auto; }
+.duet-stage {
+  display: grid;
+  grid-template-columns: 125fr 120fr;
+}
+.duet-side { position: relative; overflow: hidden; }
+.duet-side img { display: block; width: 100%; height: auto; }
+.duet-cap {
+  display: grid;
+  grid-template-columns: 125fr 120fr;
+  border-top: 1px solid var(--bo-line);
+  font: .75rem/1 var(--bo-mono);
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--bo-bone);
+}
+.duet-cap span { padding: .65rem .8rem .6rem; }
+.duet-cap span + span { border-left: 1px solid var(--bo-line); }
+
 .hero-lede {
   max-width: 30ch;
   font-size: clamp(1.125rem, 2.3vw, 1.375rem);
