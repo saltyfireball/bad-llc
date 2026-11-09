@@ -3,7 +3,7 @@
 # The token comes from Infisical and is never printed.
 #
 # usage: ./deploy.sh            deploys the preview branch: https://preview.bad-llc-ncd.pages.dev
-#        ./deploy.sh main       deploys production (only after John signs off, SLRM-1786)
+#        ./deploy.sh main       deploys production
 #
 # This script only uploads files. It never attaches domains or touches DNS: bad.llc carries
 # live Proton Mail records (MX, SPF, DKIM, DMARC).

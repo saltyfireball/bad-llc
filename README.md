@@ -18,7 +18,7 @@ needs a `v2/`. Epic: SLRM-1881.
 
 1. Edit the files in `public/` directly. There is no build step. JavaScript is tiny, deferred and only for easter eggs; the page works without it.
 2. To check it locally, serve `public/` with any static server.
-3. Run `./deploy.sh` to publish `public/` to the preview, https://preview.bad-llc-ncd.pages.dev. `./deploy.sh main` publishes production, and only after John signs off.
+3. Run `./deploy.sh` to publish `public/` to the preview, https://preview.bad-llc-ncd.pages.dev. `./deploy.sh main` publishes production.
 
 `deploy.sh` never attaches domains or touches DNS. bad.llc carries live Proton Mail records (MX, SPF, DKIM, DMARC): leave them alone.
 
