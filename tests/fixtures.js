@@ -1,49 +1,46 @@
 // Synthetic manifests for the portrait tests. Made-up numbers, no art.
 "use strict";
 
-function rects(n, layers) {
+// n frame rects: the first is null (same as rest), the rest are small crops inside a 200x200 atlas.
+function rects(n) {
   var out = [];
-  for (var i = 0; i < n; i++) {
-    var f = {};
-    layers.forEach(function (l) { f[l] = i === 0 ? null : [i * 4, 0, 8, 8, 10 + i, 10]; });
-    out.push(f);
-  }
+  for (var i = 0; i < n; i++) out.push(i === 0 ? null : [i * 4, 0, 8, 8, 10 + i, 10]);
   return out;
 }
 
-function files(name, layers) {
-  var f = {};
-  layers.forEach(function (l) { f[l] = { 1: name + "." + l + ".webp", 2: name + "." + l + "@2x.webp" }; });
-  return f;
+function files(name) {
+  return { 1: name + ".webp", 2: name + "@2x.webp" };
 }
 
 // Cassandra: intro and poke wave, three idles, a 5x3 grid with closed eyes.
 function cassandra() {
-  var L = ["base", "shirt"], names = ["idle", "blink", "wave", "glance", "tilt", "look"], m = {
-    version: 1, persona: "cassandra", width: 100, height: 120, densities: [1, 2], background: null,
-    still: { 1: "rest.webp", 2: "rest@2x.webp" }, layers: L, atlases: {}, actions: {},
-    grid: {
-      atlas: "grid", yaw: [-14, -7, 0, 7, 14], pitch: [-6, 0, 6],
-      frames: rects(15, L), closed: rects(15, L)
+  return {
+    version: 1, persona: "cassandra", width: 100, height: 120, background: "#17151c",
+    still: files("rest"),
+    clips: {
+      idle: { src: "idle.mp4", duration: 4, loop: true },
+      wave: { src: "wave.mp4", duration: 2.8 },
+      glance: { src: "glance.mp4", duration: 1.5 },
+      tilt: { src: "tilt.mp4", duration: 1.5 },
+      look: { src: "look.mp4", duration: 2 }
     },
-    behaviour: { intro: "wave", poke: "wave", idles: ["glance", "tilt", "look"], every: [8, 20], blinkEvery: [2, 6], grid: true }
+    atlases: {
+      blink: { files: files("blink"), width: 200, height: 200 },
+      grid: { files: files("grid"), width: 200, height: 200 }
+    },
+    blink: { atlas: "blink", fps: 24, frames: rects(4) },
+    grid: { atlas: "grid", yaw: [-14, -7, 0, 7, 14], pitch: [-6, 0, 6], frames: rects(15), closed: rects(15) },
+    behaviour: { intro: "wave", poke: "wave", idles: ["glance", "tilt", "look"], every: [8, 20], blinkEvery: [2, 6] }
   };
-  names.concat("grid").forEach(function (n) { m.atlases[n] = { width: 200, height: 200, files: files(n, L) }; });
-  names.forEach(function (n) {
-    m.actions[n] = { atlas: n, fps: n === "idle" ? 8 : n === "blink" ? 24 : 12, frames: rects(n === "idle" ? 16 : 6, L) };
-  });
-  m.actions.idle.loop = true;
-  return m;
 }
 
 // Carrie: no intro, no wave, her poke is the glance.
 function carrie() {
   var m = cassandra();
-  delete m.actions.wave;
-  delete m.atlases.wave;
+  delete m.clips.wave;
   m.persona = "carrie";
   m.background = "#000000";
-  m.behaviour = { intro: null, poke: "glance", idles: ["glance", "tilt", "look"], every: [8, 20], blinkEvery: [2, 6], grid: true };
+  m.behaviour = { intro: null, poke: "glance", idles: ["glance", "tilt", "look"], every: [8, 20], blinkEvery: [2, 6] };
   return m;
 }
 

@@ -20,7 +20,8 @@ The living portrait player has tests (`node --test`, no dependencies, Node 20 or
 
     node --test tests/
 
-They cover the state machine, the manifest checks and the 6 KB gzip budget.
+They cover the state machine (clip commands, the idle seam, blink and pose grid), the manifest checks
+and the 6 KB gzip budget.
 
 ## Updating the page
 

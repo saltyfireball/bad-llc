@@ -21,7 +21,8 @@ It writes:
 
 `portrait_demo.py` bakes the synthetic demo portrait (a face made of shapes, no
 real art) into `public/kit/v1/portrait-demo/portrait/`, in the living-portrait manifest
-format. Run from the repo root:
+format: opaque stills, tiny H.264 clips for the actions (needs `ffmpeg`), and cropped
+WebP atlases for the blink and the pose grid. Run from the repo root:
 
     uv run --with pillow python tools/portrait_demo.py
 
