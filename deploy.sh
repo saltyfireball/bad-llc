@@ -34,4 +34,9 @@ for asset in style.css omen.js duet.js kit/v1/tokens.css kit/v1/footer.css kit/v
   done
 done
 
+# The same 4 hour cache hits the duet's clips, stills and atlases (.mp4, .webp), and their
+# manifests (JSON, never cached) cannot carry a ?v=: a stale clip played against a fresh still
+# (SLRM-1925). So each duet media file goes up under a content-hashed name instead.
+python3 tools/stamp_duet.py "$stage"
+
 npx --yes wrangler@4 pages deploy "$stage" --project-name bad-llc --branch "$branch"
