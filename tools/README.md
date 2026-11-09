@@ -19,6 +19,12 @@ It writes:
 - the inline hero mark in `public/index.html` (the `<svg class="omen">`: the eye with
   the raven perched on it, inlined so CSS can run the ident on its parts)
 
+`portrait_demo.py` bakes the synthetic demo portrait (a face made of shapes, no
+real art) into `public/kit/v1/portrait-demo/portrait/`, in the living-portrait manifest
+format. Run from the repo root:
+
+    uv run --with pillow python tools/portrait_demo.py
+
 `glyphs.py` outlines text to SVG path data with fontTools. The wear on the eye
 is a seeded mask, so output is the same on every run. Geometry notes for the
 animation (ids, ring top, eye centre line) are in the comments at the top of

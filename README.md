@@ -14,6 +14,14 @@ guide (`VOICE.md`). bad.llc loads it like any other site would; cassie.sh and
 carrie.sh copy the folder. Its own README covers using it and when a change
 needs a `v2/`. Epic: SLRM-1881.
 
+## Tests
+
+The living portrait player has tests (`node --test`, no dependencies, Node 20 or newer). From the repo root:
+
+    node --test tests/
+
+They cover the state machine, the manifest checks and the 6 KB gzip budget.
+
 ## Updating the page
 
 1. Edit the files in `public/` directly. There is no build step. JavaScript is tiny, deferred and only for easter eggs; the page works without it.

@@ -1,0 +1,18 @@
+/* Bad Omen kit v1: living portrait. Pair with portrait-core.js and portrait.js.
+   Plain CSS, no inline styles needed: the script sets canvas size by attributes. ASCII only. */
+
+[data-portrait] { position: relative; }
+
+/* The canvas lies exactly over the still. */
+.bo-portrait-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* While the canvas runs the still keeps its place in the layout but is not painted. */
+.bo-portrait-hide { visibility: hidden; }
+
+/* The still must not leave a line-height gap under it, or the canvas would not match it. */
+[data-portrait] > img { display: block; }
