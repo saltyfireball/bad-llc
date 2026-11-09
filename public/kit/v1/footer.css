@@ -1,0 +1,67 @@
+/* Bad Omen kit v1: the shared footer. Needs tokens.css first. Markup is in footer.html.
+   Plain HTML and CSS: no script, no trackers, no outside requests. ASCII only. */
+
+.bo-foot {
+  max-width: var(--bo-wrap);
+  margin: clamp(5rem, 12vw, 9rem) auto 0;
+  padding: var(--bo-space-6) var(--bo-gut) 3rem;
+  border-top: 1px solid var(--bo-line);
+  font: var(--bo-text-label)/1.8 var(--bo-mono);
+  letter-spacing: .08em;
+  color: var(--bo-ash-lt);
+  text-align: center;
+}
+.bo-foot p { margin: 0; text-wrap: balance; }
+.bo-foot p + p { margin-top: .15rem; }
+.bo-foot a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: .2em;
+}
+.bo-foot a:hover { color: var(--bo-bone); }
+.bo-foot a:focus-visible {
+  outline: 2px solid var(--bo-bone);
+  outline-offset: 4px;
+}
+
+/* The shared band: the line, then every site. Always last in the footer. */
+.bo-foot-band {
+  margin-top: var(--bo-space-6);
+  padding-top: var(--bo-space-5);
+  border-top: 1px dashed var(--bo-line);
+}
+.bo-foot-band:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+
+.bo-foot-mark {
+  color: var(--bo-bone);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+.bo-foot-mark::before {
+  content: "";
+  display: inline-block;
+  width: .55em;
+  height: .55em;
+  margin-right: .7em;
+  border: 1px solid var(--bo-red);
+  transform: rotate(45deg) translateY(-.12em);
+}
+
+.bo-foot-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--bo-space-2) 0;
+  margin: var(--bo-space-3) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.bo-foot-nav li + li::before {
+  content: "/";
+  margin: 0 .9em;
+  color: var(--bo-ash);
+}
+.bo-foot-nav a[aria-current="page"] {
+  color: var(--bo-bone);
+  text-decoration: none;
+}

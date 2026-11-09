@@ -1,0 +1,83 @@
+/* Bad Omen kit v1: tokens. Fonts, colors, spacing and type, taken from bad.llc.
+   Copy the whole kit/v1 folder; font URLs are relative to this file.
+   Every name starts with --bo- so a site's own variables never collide. ASCII only. */
+
+@font-face {
+  font-family: "Pirata One";
+  src: url("fonts/pirata-one-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Geist";
+  src: url("fonts/geist-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Geist Mono";
+  src: url("fonts/geist-mono-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Spectral";
+  src: url("fonts/spectral-latin-300-normal.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: dark;
+
+  /* Color. Dark only: there is no light theme. */
+  --bo-ink: #0b0b0c;        /* page */
+  --bo-ink-2: #121213;      /* raised surface: cards, boards */
+  --bo-line: #2a2926;       /* hairlines and dividers */
+  --bo-bone: #e8e2d6;       /* text and the mark */
+  --bo-bone-2: #c9c3b7;     /* body copy on ink */
+  --bo-ash: #6b6760;        /* decoration and large text only */
+  --bo-ash-lt: #a29d93;     /* small text on ink, 7:1 */
+  --bo-red: #b3261e;        /* the one accent: stamps, rules, the iris. Never body text. */
+  --bo-manila: #cbb88c;     /* paper: dossiers, files */
+  --bo-manila-ink: #1d1a14; /* text on manila */
+  --bo-manila-mid: #4a4234; /* small text on manila */
+
+  /* Status lights, for boards and dots only. */
+  --bo-ok: #6fcf8f;
+  --bo-warn: #e8b04a;
+  --bo-watch: #a9b6e8;
+  --bo-bad: #ff7a6b;
+  --bo-crit: #ff9152;
+
+  /* Type. Display is for headings only, mono for labels, serif for quotes. */
+  --bo-display: "Pirata One", "UnifrakturCook", Georgia, serif;
+  --bo-sans: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --bo-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --bo-serif: "Spectral", Georgia, "Times New Roman", serif;
+
+  --bo-text-label: .75rem;    /* mono, uppercase, tracked .14em-.22em */
+  --bo-text-small: .875rem;
+  --bo-text-body: 1.0625rem;  /* line-height 1.6 */
+  --bo-text-lede: clamp(1.125rem, 2.3vw, 1.375rem);
+  --bo-text-h3: 1.3125rem;
+  --bo-text-h2: clamp(2.5rem, 6.5vw, 4.75rem);    /* display, line-height .95 */
+  --bo-text-hero: clamp(4.75rem, 21vw, 13.5rem);  /* display, line-height .82 */
+  --bo-track-label: .22em;
+
+  /* Spacing. One scale; sections breathe, cards are tight. */
+  --bo-space-1: .25rem;
+  --bo-space-2: .5rem;
+  --bo-space-3: .75rem;
+  --bo-space-4: 1rem;
+  --bo-space-5: 1.5rem;
+  --bo-space-6: 2.5rem;
+  --bo-space-7: 4rem;
+  --bo-section: clamp(4.5rem, 11vw, 8.5rem);  /* gap above each section */
+  --bo-wrap: 72rem;                           /* max content width */
+  --bo-gut: clamp(1.25rem, 5vw, 3rem);        /* side gutter */
+}

@@ -25,7 +25,7 @@ export CLOUDFLARE_ACCOUNT_ID
 stage="$(mktemp -d)"
 trap 'rm -rf "$stage"' EXIT
 cp -R public/. "$stage/"
-for asset in style.css omen.js; do
+for asset in style.css omen.js kit/v1/tokens.css kit/v1/footer.css; do
   [ -f "public/$asset" ] || continue
   hash="$(shasum -a 256 "public/$asset" | cut -c1-12)"
   for page in "$stage"/*.html; do

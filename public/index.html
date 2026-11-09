@@ -25,8 +25,10 @@
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="img/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
-<link rel="preload" href="fonts/pirata-one-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="fonts/geist-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="kit/v1/fonts/pirata-one-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="kit/v1/fonts/geist-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="kit/v1/tokens.css">
+<link rel="stylesheet" href="kit/v1/footer.css">
 <link rel="stylesheet" href="style.css">
 <script src="omen.js" defer></script>
 <meta property="og:type" content="website">
@@ -105,8 +107,49 @@
     </ul>
   </section>
 
+  <section class="section projects" id="projects" aria-labelledby="projects-h">
+    <p class="kicker"><span>02</span> Projects</p>
+    <h2 id="projects-h">Things that got out</h2>
+    <div class="proj-groups">
+      <section class="proj-group" aria-labelledby="proj-staff-h">
+        <h3 id="proj-staff-h">Staff with their own websites</h3>
+        <ul>
+          <li class="proj">
+            <h4 class="proj-name">Cassandra</h4>
+            <div class="proj-line">
+              <p>Head of Prophecy. She remembers what you said, writes it down and tells you how it ends. She&rsquo;s usually right. It doesn&rsquo;t help.</p>
+              <p class="risk"><span class="risk-k">Risk</span> <span class="risk-v">correct</span></p>
+            </div>
+            <a class="proj-link" href="https://cassie.sh">cassie.sh</a>
+          </li>
+          <li class="proj">
+            <h4 class="proj-name">Carrie</h4>
+            <div class="proj-line">
+              <p>Local Operations. She runs on our own hardware in the closet: private, free, and fine with the internet unplugged. Cassandra hands her the quiet jobs.</p>
+              <p class="risk"><span class="risk-k">Risk</span> <span class="risk-v">warm</span></p>
+            </div>
+            <a class="proj-link" href="https://carrie.sh">carrie.sh</a>
+          </li>
+        </ul>
+      </section>
+      <section class="proj-group" aria-labelledby="proj-tools-h">
+        <h3 id="proj-tools-h">Equipment the agents use</h3>
+        <ul>
+          <li class="proj">
+            <h4 class="proj-name">Orca</h4>
+            <div class="proj-line">
+              <p>Our copy of the place the agents work. Each one gets its own desk, a coordinator hands out the jobs, and the results are waiting by morning. The source is public. We regret nothing yet.</p>
+              <p class="risk"><span class="risk-k">Risk</span> <span class="risk-v">multiplying</span></p>
+            </div>
+            <a class="proj-link" href="https://github.com/saltyfireball/orca">Read the source</a>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </section>
+
   <section class="section personnel" id="personnel" aria-labelledby="personnel-h">
-    <p class="kicker"><span>02</span> Staff</p>
+    <p class="kicker"><span>03</span> Staff</p>
     <div class="dossier">
       <h2 class="dossier-head" id="personnel-h">Personnel file <span aria-hidden="true">&middot;</span> <span class="dossier-class">Classification: Unfortunate</span></h2>
       <p class="dossier-stamp" aria-hidden="true">Unfortunate</p>
@@ -139,7 +182,7 @@
   </section>
 
   <section class="section quotes" id="testimonials" aria-labelledby="quotes-h">
-    <p class="kicker"><span>03</span> Testimonials</p>
+    <p class="kicker"><span>04</span> Testimonials</p>
     <h2 id="quotes-h">What people are saying</h2>
     <div class="quote-list">
       <figure class="pull">
@@ -162,7 +205,7 @@
   </section>
 
   <section class="section status" id="status" aria-labelledby="status-h">
-    <p class="kicker"><span>04</span> Status</p>
+    <p class="kicker"><span>05</span> Status</p>
     <div class="board">
       <h2 class="board-head" id="status-h">All systems ominous.</h2>
       <ul class="board-rows">
@@ -176,7 +219,7 @@
   </section>
 
   <section class="section faq" id="faq" aria-labelledby="faq-h">
-    <p class="kicker"><span>05</span> FAQ</p>
+    <p class="kicker"><span>06</span> FAQ</p>
     <div class="label">
       <h2 class="label-bar" id="faq-h"><span class="label-sign" aria-hidden="true">!</span> Warning</h2>
       <dl class="label-body">
@@ -194,12 +237,22 @@
 
 </main>
 
-<footer class="foot">
+<footer class="bo-foot">
   <div class="eggs"></div>
   <p class="foot-mark">bad.llc &middot; est. 2026 &middot; no refunds</p>
   <p>Built by humans, agents and one very tired raven.</p>
   <p>All rights reserved. Several wrongs, too.</p>
-  <p class="foot-link">Head of Prophecy: <a href="https://cassie.sh">cassie.sh</a></p>
+  <div class="bo-foot-band">
+    <p class="bo-foot-mark">A Bad Omen project &middot; <a href="https://bad.llc">bad.llc</a></p>
+    <nav class="bo-foot-nav" aria-label="Bad Omen projects">
+      <ul>
+        <li><a href="https://bad.llc" aria-current="page">bad.llc</a></li>
+        <li><a href="https://cassie.sh">cassie.sh</a></li>
+        <li><a href="https://carrie.sh">carrie.sh</a></li>
+        <li><a href="https://github.com/saltyfireball/orca">Orca</a></li>
+      </ul>
+    </nav>
+  </div>
 </footer>
 </body>
 </html>

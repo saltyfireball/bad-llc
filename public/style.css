@@ -1,59 +1,11 @@
 /* Bad Omen. Static, no build step. ASCII only. */
 
-@font-face {
-  font-family: "Pirata One";
-  src: url("fonts/pirata-one-latin-400-normal.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Geist";
-  src: url("fonts/geist-latin-400-normal.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Geist Mono";
-  src: url("fonts/geist-mono-latin-400-normal.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Spectral";
-  src: url("fonts/spectral-latin-300-normal.woff2") format("woff2");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-:root {
-  color-scheme: dark;
-  --ink: #0b0b0c;
-  --ink-2: #121213;
-  --line: #2a2926;
-  --bone: #e8e2d6;
-  --bone-2: #c9c3b7;
-  --ash: #6b6760;      /* decoration and large text only */
-  --ash-lt: #a29d93;   /* small text on ink, 7:1 */
-  --red: #b3261e;
-  --manila: #cbb88c;
-  --manila-ink: #1d1a14;
-  --manila-mid: #4a4234;
-  --display: "Pirata One", "UnifrakturCook", Georgia, serif;
-  --sans: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  --serif: "Spectral", Georgia, "Times New Roman", serif;
-  --wrap: 72rem;
-  --gut: clamp(1.25rem, 5vw, 3rem);
-}
+/* Fonts and every --bo-* token come from kit/v1/tokens.css, loaded first. */
 
 *, *::before, *::after { box-sizing: border-box; }
 
 html {
-  background: var(--ink);
+  background: var(--bo-ink);
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
@@ -65,9 +17,9 @@ body {
   margin: 0;
   position: relative;
   isolation: isolate;
-  background: var(--ink);
-  color: var(--bone);
-  font: 400 1.0625rem/1.6 var(--sans);
+  background: var(--bo-ink);
+  color: var(--bo-bone);
+  font: 400 1.0625rem/1.6 var(--bo-sans);
   -webkit-font-smoothing: antialiased;
   overflow-wrap: break-word;
 }
@@ -84,13 +36,13 @@ body::before {
   opacity: .09;
 }
 
-h1, h2, h3, p, dl, dd, figure, blockquote { margin: 0; }
+h1, h2, h3, h4, p, dl, dd, figure, blockquote { margin: 0; }
 ul { margin: 0; padding: 0; list-style: none; }
 img { display: block; max-width: 100%; height: auto; }
 
 a { color: inherit; }
 :focus-visible {
-  outline: 2px solid var(--bone);
+  outline: 2px solid var(--bo-bone);
   outline-offset: 4px;
   border-radius: 1px;
 }
@@ -101,9 +53,9 @@ a { color: inherit; }
   top: -4rem;
   z-index: 10;
   padding: .6rem 1rem;
-  background: var(--bone);
-  color: var(--ink);
-  font: .8125rem/1 var(--mono);
+  background: var(--bo-bone);
+  color: var(--bo-ink);
+  font: .8125rem/1 var(--bo-mono);
   text-decoration: none;
 }
 .skip:focus { top: 1rem; }
@@ -117,7 +69,7 @@ a { color: inherit; }
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 4rem var(--gut) 3.5rem;
+  padding: 4rem var(--bo-gut) 3.5rem;
   text-align: center;
 }
 
@@ -175,24 +127,24 @@ html.blink #omen-lid-bottom { animation: omen-blink .3s ease-in-out; }
 
 .hero-pre,
 .hero-post {
-  font: .75rem/1.4 var(--mono);
+  font: .75rem/1.4 var(--bo-mono);
   letter-spacing: .22em;
   text-transform: uppercase;
-  color: var(--ash-lt);
+  color: var(--bo-ash-lt);
 }
 
 .wordmark {
   margin: .08em 0 .14em;
-  font: 400 clamp(4.75rem, 21vw, 13.5rem)/.82 var(--display);
+  font: 400 clamp(4.75rem, 21vw, 13.5rem)/.82 var(--bo-display);
   letter-spacing: .005em;
-  color: var(--bone);
+  color: var(--bo-bone);
 }
 
 .hero-lede {
   max-width: 30ch;
   font-size: clamp(1.125rem, 2.3vw, 1.375rem);
   line-height: 1.45;
-  color: var(--bone-2);
+  color: var(--bo-bone-2);
   text-wrap: balance;
 }
 
@@ -208,7 +160,7 @@ html.blink #omen-lid-bottom { animation: omen-blink .3s ease-in-out; }
   content: "";
   flex: 1;
   height: 1px;
-  background: var(--ash);
+  background: var(--bo-ash);
 }
 
 .hero-cta {
@@ -222,26 +174,26 @@ html.blink #omen-lid-bottom { animation: omen-blink .3s ease-in-out; }
 .btn {
   display: inline-block;
   padding: .95rem 1.35rem .9rem;
-  border: 1px solid var(--bone);
-  font: .8125rem/1 var(--mono);
+  border: 1px solid var(--bo-bone);
+  font: .8125rem/1 var(--bo-mono);
   letter-spacing: .14em;
   text-transform: uppercase;
   text-decoration: none;
 }
-.btn::before { content: "["; margin-right: .5em; color: var(--ash-lt); }
-.btn::after { content: "]"; margin-left: .5em; color: var(--ash-lt); }
-.btn-solid { background: var(--bone); color: var(--ink); }
-.btn-solid::before, .btn-solid::after { color: var(--manila-mid); }
-.btn-line { color: var(--bone); border-color: var(--ash); }
+.btn::before { content: "["; margin-right: .5em; color: var(--bo-ash-lt); }
+.btn::after { content: "]"; margin-left: .5em; color: var(--bo-ash-lt); }
+.btn-solid { background: var(--bo-bone); color: var(--bo-ink); }
+.btn-solid::before, .btn-solid::after { color: var(--bo-manila-mid); }
+.btn-line { color: var(--bo-bone); border-color: var(--bo-ash); }
 .btn-solid:hover { background: #fff; }
-.btn-line:hover { border-color: var(--bone); }
+.btn-line:hover { border-color: var(--bo-bone); }
 
 /* ---------- Sections ---------- */
 
 .section {
-  max-width: var(--wrap);
+  max-width: var(--bo-wrap);
   margin: 0 auto;
-  padding: clamp(4.5rem, 11vw, 8.5rem) var(--gut) 0;
+  padding: clamp(4.5rem, 11vw, 8.5rem) var(--bo-gut) 0;
 }
 
 .kicker {
@@ -249,26 +201,26 @@ html.blink #omen-lid-bottom { animation: omen-blink .3s ease-in-out; }
   align-items: center;
   gap: .75rem;
   margin-bottom: 1.25rem;
-  font: .75rem/1 var(--mono);
+  font: .75rem/1 var(--bo-mono);
   letter-spacing: .22em;
   text-transform: uppercase;
-  color: var(--ash-lt);
+  color: var(--bo-ash-lt);
 }
 .kicker span {
   padding: .3em .45em .25em;
-  border: 1px solid var(--red);
-  color: var(--bone);
+  border: 1px solid var(--bo-red);
+  color: var(--bo-bone);
   letter-spacing: .08em;
 }
 .kicker::after {
   content: "";
   flex: 1;
   height: 1px;
-  background: var(--line);
+  background: var(--bo-line);
 }
 
 .section h2 {
-  font: 400 clamp(2.5rem, 6.5vw, 4.75rem)/.95 var(--display);
+  font: 400 clamp(2.5rem, 6.5vw, 4.75rem)/.95 var(--bo-display);
   letter-spacing: .005em;
   text-wrap: balance;
 }
@@ -282,8 +234,8 @@ html.blink #omen-lid-bottom { animation: omen-blink .3s ease-in-out; }
   grid-template-columns: 1fr;
   gap: 1px;
   margin-top: clamp(2.5rem, 5vw, 3.5rem);
-  background: var(--line);
-  border: 1px solid var(--line);
+  background: var(--bo-line);
+  border: 1px solid var(--bo-line);
 }
 @media (min-width: 40em) {
   .cards { grid-template-columns: repeat(2, 1fr); }
@@ -298,41 +250,108 @@ html.blink #omen-lid-bottom { animation: omen-blink .3s ease-in-out; }
   flex-direction: column;
   gap: .85rem;
   padding: 1.75rem 1.5rem 1.6rem;
-  background: var(--ink-2);
+  background: var(--bo-ink-2);
 }
 .card-no {
   position: absolute;
   top: 1.1rem;
   right: 1.25rem;
-  font: 2.25rem/1 var(--display);
-  color: var(--ash);
+  font: 2.25rem/1 var(--bo-display);
+  color: var(--bo-ash);
 }
 .card h3 {
   padding-right: 3rem;
-  font: 400 1.3125rem/1.2 var(--sans);
+  font: 400 1.3125rem/1.2 var(--bo-sans);
   letter-spacing: -.01em;
 }
-.card p { color: var(--bone-2); font-size: 1rem; }
+.card p { color: var(--bo-bone-2); font-size: 1rem; }
 
 .risk {
   display: inline-flex;
   align-self: flex-start;
   margin-top: auto;
   padding-top: .65rem;
-  font: .75rem/1 var(--mono);
+  font: .75rem/1 var(--bo-mono);
   letter-spacing: .16em;
   text-transform: uppercase;
   transform: rotate(-2deg);
   transform-origin: left center;
 }
-.card p.risk { color: var(--bone); font-size: .75rem; }
+.card p.risk { color: var(--bo-bone); font-size: .75rem; }
 .risk-k,
 .risk-v {
   padding: .45em .6em .4em;
-  border: 2px solid var(--red);
+  border: 2px solid var(--bo-red);
 }
-.risk-k { background: var(--red); }
+.risk-k { background: var(--bo-red); }
 .risk-v { border-left: 0; }
+
+/* ---------- Projects (SLRM-1883) ---------- */
+
+.projects h2 { max-width: 12ch; }
+
+.proj-groups {
+  display: grid;
+  gap: clamp(2.5rem, 5vw, 3.5rem);
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+}
+
+.proj-group h3 {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  margin: 0 0 .25rem;
+  font: 400 var(--bo-text-label)/1.4 var(--bo-mono);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--bo-ash-lt);
+}
+.proj-group h3::before {
+  content: "";
+  flex: none;
+  width: 1.5rem;
+  height: 2px;
+  background: var(--bo-red);
+}
+
+.proj {
+  display: grid;
+  gap: .6rem 2rem;
+  padding: 1.6rem 0;
+  border-bottom: 1px solid var(--bo-line);
+}
+.proj:last-child { border-bottom: 0; }
+@media (min-width: 48em) {
+  .proj {
+    grid-template-columns: 12rem 1fr auto;
+    align-items: baseline;
+  }
+}
+
+.proj-name {
+  font: 400 clamp(2rem, 4vw, 2.6rem)/1 var(--bo-display);
+}
+.proj-line {
+  max-width: 44ch;
+  color: var(--bo-bone-2);
+}
+.proj-line .risk {
+  margin-top: .9rem;
+  padding-top: 0;
+  color: var(--bo-bone);
+}
+.proj-link {
+  justify-self: start;
+  padding: .6rem .9rem .55rem;
+  border: 1px solid var(--bo-ash);
+  font: .75rem/1 var(--bo-mono);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.proj-link::after { content: " \2192"; color: var(--bo-ash-lt); }
+.proj-link:hover { border-color: var(--bo-bone); }
 
 /* ---------- Personnel file ---------- */
 
@@ -342,8 +361,8 @@ html.blink #omen-lid-bottom { animation: omen-blink .3s ease-in-out; }
   margin-top: 2.75rem;
   padding: clamp(1.5rem, 4vw, 2.75rem);
   padding-top: clamp(1.75rem, 4vw, 2.5rem);
-  background: var(--manila);
-  color: var(--manila-ink);
+  background: var(--bo-manila);
+  color: var(--bo-manila-ink);
   border-radius: 0 3px 3px 3px;
 }
 /* folder tab */
@@ -354,14 +373,14 @@ html.blink #omen-lid-bottom { animation: omen-blink .3s ease-in-out; }
   bottom: 100%;
   width: min(15rem, 45%);
   height: 1.1rem;
-  background: var(--manila);
+  background: var(--bo-manila);
   border-radius: 4px 10px 0 0;
 }
 
 .section .dossier-head {
   padding-bottom: 1rem;
-  border-bottom: 1px dashed var(--manila-mid);
-  font: .8125rem/1.6 var(--mono);
+  border-bottom: 1px dashed var(--bo-manila-mid);
+  font: .8125rem/1.6 var(--bo-mono);
   letter-spacing: .18em;
   text-transform: uppercase;
   text-wrap: pretty;
@@ -374,9 +393,9 @@ html.blink #omen-lid-bottom { animation: omen-blink .3s ease-in-out; }
   bottom: clamp(1.75rem, 4vw, 2.75rem);
   right: clamp(1.5rem, 4vw, 2.75rem);
   padding: .2em .45em .1em;
-  border: 3px solid var(--red);
-  color: var(--red);
-  font: 1.75rem/1 var(--display);
+  border: 3px solid var(--bo-red);
+  color: var(--bo-red);
+  font: 1.75rem/1 var(--bo-display);
   letter-spacing: .04em;
   transform: rotate(-9deg);
 }
@@ -395,25 +414,25 @@ html.blink #omen-lid-bottom { animation: omen-blink .3s ease-in-out; }
   .staff-row { grid-template-columns: 10rem 1fr; }
 }
 .staff dt {
-  font: 1.75rem/1.1 var(--display);
+  font: 1.75rem/1.1 var(--bo-display);
 }
 .staff dd { max-width: 38rem; }
 .staff-role {
   display: block;
   margin-bottom: .2rem;
-  font: .75rem/1.6 var(--mono);
+  font: .75rem/1.6 var(--bo-mono);
   letter-spacing: .14em;
   text-transform: uppercase;
-  color: var(--manila-mid);
+  color: var(--bo-manila-mid);
 }
 
 .oracle {
   margin: 1rem 0 .25rem;
   padding-left: 1.25rem;
-  border-left: 3px solid var(--manila-ink);
+  border-left: 3px solid var(--bo-manila-ink);
 }
 .oracle p {
-  font: 300 clamp(1.4rem, 3.2vw, 2.1rem)/1.3 var(--serif);
+  font: 300 clamp(1.4rem, 3.2vw, 2.1rem)/1.3 var(--bo-serif);
   text-indent: -.4em;
   letter-spacing: -.005em;
 }
@@ -430,7 +449,7 @@ html.blink #omen-lid-bottom { animation: omen-blink .3s ease-in-out; }
 }
 .pull {
   padding-top: 1.25rem;
-  border-top: 2px solid var(--red);
+  border-top: 2px solid var(--bo-red);
 }
 .pull blockquote p {
   font-size: clamp(1.6rem, 3.6vw, 2.5rem);
@@ -443,10 +462,10 @@ html.blink #omen-lid-bottom { animation: omen-blink .3s ease-in-out; }
 }
 .pull figcaption {
   margin-top: 1rem;
-  font: .75rem/1.4 var(--mono);
+  font: .75rem/1.4 var(--bo-mono);
   letter-spacing: .16em;
   text-transform: uppercase;
-  color: var(--ash-lt);
+  color: var(--bo-ash-lt);
 }
 
 /* ---------- Status board ---------- */
@@ -454,33 +473,33 @@ html.blink #omen-lid-bottom { animation: omen-blink .3s ease-in-out; }
 .board {
   max-width: 50rem;
   margin-top: 2.5rem;
-  border: 1px solid var(--line);
-  background: var(--ink-2);
+  border: 1px solid var(--bo-line);
+  background: var(--bo-ink-2);
 }
 .section .board-head {
   padding: 1.5rem 1.5rem 1.4rem;
-  border-bottom: 1px solid var(--line);
-  border-left: 6px solid var(--red);
+  border-bottom: 1px solid var(--bo-line);
+  border-left: 6px solid var(--bo-red);
   font-size: clamp(2.25rem, 5.5vw, 3.75rem);
 }
 
 .board-row {
-  --c: var(--ash-lt);
+  --c: var(--bo-ash-lt);
   display: grid;
   grid-template-columns: .625rem 1fr auto;
   align-items: center;
   gap: 1rem;
   padding: 1rem 1.5rem;
-  border-top: 1px solid var(--line);
-  font: .875rem/1.3 var(--mono);
+  border-top: 1px solid var(--bo-line);
+  font: .875rem/1.3 var(--bo-mono);
   letter-spacing: .06em;
 }
 .board-row:first-child { border-top: 0; }
-.is-ok    { --c: #6fcf8f; }
-.is-warn  { --c: #e8b04a; }
-.is-watch { --c: #a9b6e8; }
-.is-bad   { --c: #ff7a6b; }
-.is-crit  { --c: #ff9152; }
+.is-ok    { --c: var(--bo-ok); }
+.is-warn  { --c: var(--bo-warn); }
+.is-watch { --c: var(--bo-watch); }
+.is-bad   { --c: var(--bo-bad); }
+.is-crit  { --c: var(--bo-crit); }
 
 .dot {
   width: .625rem;
@@ -488,7 +507,7 @@ html.blink #omen-lid-bottom { animation: omen-blink .3s ease-in-out; }
   border-radius: 50%;
   background: var(--c);
 }
-.board-k { text-transform: uppercase; letter-spacing: .14em; color: var(--bone); }
+.board-k { text-transform: uppercase; letter-spacing: .14em; color: var(--bo-bone); }
 .board-v { color: var(--c); text-align: right; }
 
 /* decorative 30-day bars, wide screens only */
@@ -510,17 +529,17 @@ html.blink #omen-lid-bottom { animation: omen-blink .3s ease-in-out; }
 .label {
   max-width: 46rem;
   margin-top: 2.5rem;
-  border: 6px solid var(--bone);
-  background: var(--ink);
+  border: 6px solid var(--bo-bone);
+  background: var(--bo-ink);
 }
 .section .label-bar {
   display: flex;
   align-items: center;
   gap: .9rem;
   padding: .7rem 1.25rem .65rem;
-  background: var(--bone);
-  color: var(--ink);
-  font: 400 clamp(1.75rem, 4.5vw, 2.5rem)/1 var(--sans);
+  background: var(--bo-bone);
+  color: var(--bo-ink);
+  font: 400 clamp(1.75rem, 4.5vw, 2.5rem)/1 var(--bo-sans);
   letter-spacing: .2em;
   text-transform: uppercase;
 }
@@ -531,9 +550,9 @@ html.blink #omen-lid-bottom { animation: omen-blink .3s ease-in-out; }
   width: 1.15em;
   height: 1em;
   padding-top: .22em;
-  background: var(--ink);
-  color: var(--bone);
-  font: .6em/1 var(--sans);
+  background: var(--bo-ink);
+  color: var(--bo-bone);
+  font: .6em/1 var(--bo-sans);
   letter-spacing: 0;
   clip-path: polygon(50% 0, 100% 100%, 0 100%);
 }
@@ -544,8 +563,8 @@ html.blink #omen-lid-bottom { animation: omen-blink .3s ease-in-out; }
 .label-body dt {
   padding-top: 1.1rem;
   margin-top: 1.1rem;
-  border-top: 2px solid var(--bone);
-  font: .8125rem/1.4 var(--mono);
+  border-top: 2px solid var(--bo-bone);
+  font: .8125rem/1.4 var(--bo-mono);
   letter-spacing: .14em;
   text-transform: uppercase;
 }
@@ -558,21 +577,9 @@ html.blink #omen-lid-bottom { animation: omen-blink .3s ease-in-out; }
 
 /* ---------- Footer ---------- */
 
-.foot {
-  max-width: var(--wrap);
-  margin: clamp(5rem, 12vw, 9rem) auto 0;
-  padding: 2.5rem var(--gut) 3rem;
-  border-top: 1px solid var(--line);
-  font: .75rem/1.8 var(--mono);
-  letter-spacing: .08em;
-  color: var(--ash-lt);
-  text-align: center;
-}
-.foot-mark { color: var(--bone); letter-spacing: .18em; text-transform: uppercase; }
-.foot p { text-wrap: balance; }
-.foot p + p { margin-top: .15rem; }
-.foot-link { margin-top: .75rem; }
-.label-body a, .foot a { text-decoration: underline; text-underline-offset: .2em; }
+/* The footer itself is the kit's (kit/v1/footer.css); these are bad.llc's own lines. */
+.foot-mark { color: var(--bo-bone); letter-spacing: .18em; text-transform: uppercase; }
+.label-body a { text-decoration: underline; text-underline-offset: .2em; }
 .eggs:empty { display: none; }
 
 /* ---------- Eggs (SLRM-1785), all added by omen.js ---------- */
@@ -581,19 +588,19 @@ html.blink #omen-lid-bottom { animation: omen-blink .3s ease-in-out; }
 .nope {
   min-height: 2.75rem;
   padding: .8rem 1.25rem .75rem;
-  border: 2px solid var(--red);
+  border: 2px solid var(--bo-red);
   background: transparent;
-  color: var(--bone);
-  font: .75rem/1 var(--mono);
+  color: var(--bo-bone);
+  font: .75rem/1 var(--bo-mono);
   letter-spacing: .22em;
   text-transform: uppercase;
   cursor: pointer;
 }
 @media (hover: hover) {
-  .nope:hover { background: var(--red); }
+  .nope:hover { background: var(--bo-red); }
 }
 .nope:active { transform: translateY(1px); }
-.nope-msg { min-height: 1.8em; margin-top: .75rem; color: var(--bone); }
+.nope-msg { min-height: 1.8em; margin-top: .75rem; color: var(--bo-bone); }
 
 .perch {
   position: fixed;
@@ -613,7 +620,7 @@ html.blink #omen-lid-bottom { animation: omen-blink .3s ease-in-out; }
 .lost h1 {
   max-width: 14ch;
   margin: .5rem 0 1rem;
-  font: 400 clamp(2.75rem, 9vw, 5.5rem)/.95 var(--display);
+  font: 400 clamp(2.75rem, 9vw, 5.5rem)/.95 var(--bo-display);
   text-wrap: balance;
 }
 
