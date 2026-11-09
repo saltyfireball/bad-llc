@@ -214,6 +214,31 @@ test("she recentres before a clip plays", () => {
   }
 });
 
+test("crossing from one side to the other while moving keeps the follow, even with an idle overdue", () => {
+  const r = rig(cassandra(), () => 0.5).run(8);
+  // far upper right; the idle (due at 14 s) comes due while she follows, and must not end it
+  while (r.f.kind !== "grid") { r.core.pointer(0.6, -0.6); r.run(DT); }
+  const g0 = r.t;
+  while (r.t < g0 + 12) { r.core.pointer(0.6, -0.6); r.run(DT); assert.equal(r.f.kind, "grid", "still following at " + (r.t - g0)); }
+  assert.deepEqual([r.f.cx, r.f.cy], [4, 0]);
+  const t0 = r.t, xs = new Set();
+  while (r.t < t0 + 6) { r.core.pointer(-0.6, -0.6); r.run(DT); assert.equal(r.f.kind, "grid", "still following at " + (r.t - t0)); xs.add(r.f.cx); }
+  assert.deepEqual([r.f.cx, r.f.cy], [0, 0], "walked across to the far left");
+  assert.ok(xs.has(2), "through the centre column");
+  r.run(1);
+  assert.equal(r.f.kind, "grid", "within 2 s of the last move she still follows");
+  until(r, (x) => x.f.kind !== "grid", 10);
+  assert.equal(r.f.kind, "clip", "then she recentres and the overdue idle plays");
+});
+
+test("leave() ends the follow at once", () => {
+  const r = rig(cassandra(), () => 0.5).run(8);
+  follow(r, 0.6, 0, 12);
+  assert.equal(r.f.kind, "grid");
+  r.core.leave();
+  until(r, (x) => x.f.kind !== "grid", 10);
+});
+
 test("while following, a blink shows the closed cell", () => {
   const r = rig(cassandra(), () => 0).run(3);
   let closed = 0, open = 0;

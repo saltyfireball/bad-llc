@@ -69,11 +69,9 @@
 
   // ---- the player ----
   // tick(seconds) says what to show: {kind, key, ...}
-  //   clip:  play clip `name`; `id` is new for every start (the idle loop restarts under a new id).
-  //          The page calls ended() when the clip is over.
-  //   blink, grid: draw `frame` ([sx,sy,w,h,dx,dy] or null = nothing) from `atlas`.
-  //   rest:  the still alone.
-  // o.rand: () => [0,1). The clock is whatever you pass to tick/resume, in seconds.
+  //   clip: play clip `name` (`id` is new per start); the page calls ended() when it is over.
+  //   blink, grid: draw `frame` ([sx,sy,w,h,dx,dy] or null) from `atlas`. rest: the still alone.
+  // o.rand: () => [0,1).
   function create(m, o) {
     var rnd = (o && o.rand) || Math.random, b = m.behaviour, G = m.grid, K = m.blink,
       cx0 = (G.yaw.length - 1) >> 1, cy0 = (G.pitch.length - 1) >> 1, cx = cx0, cy = cy0, tx = cx0, ty = cy0;
@@ -85,11 +83,9 @@
     function span(r) { return r[0] + (r[1] - r[0]) * rnd(); }
     function sign(v) { return v > 0 ? 1 : v < 0 ? -1 : 0; }
     function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
-    function due() { return clips && (introQ || pokeQ || clock >= nextIdle); }
     function play(n) { mode = "clip"; act = { n: n, t: 0, id: ++ids, over: false }; }
 
-    // The next clip to play, or null. Intro first, then a poke, then an idle that is never
-    // the one we just played.
+    // The next clip: intro, then a poke, then an idle that is not the last one.
     function take() {
       var n = null, pool;
       if (!clips) return n;
@@ -126,7 +122,7 @@
     }
 
     function stepGrid(dt) {
-      var d = due();
+      var d = clips && (introQ || pokeQ); // a poke or intro ends the follow; a due idle waits for it
       if (clock - moved > HOME || d) { tx = cx0; ty = cy0; }
       acc = Math.min(acc + dt, STEP);
       if (acc >= STEP && (cx !== tx || cy !== ty)) { acc -= STEP; cx += sign(tx - cx); cy += sign(ty - cy); }
@@ -166,14 +162,16 @@
         else seam();
         return (cur = out());
       },
-      // The page says the clip it was told to play has finished (or, with no id, any clip).
+      // The page says the clip has finished.
       ended: function () { if (act) act.over = true; },
-      // A clip failed to load or play: no more clips, the still with the grid and blinks stays.
+      // A clip failed: no more clips; the still, grid and blinks stay.
       drop: function () {
         clips = false; introQ = pokeQ = false; nextIdle = Infinity;
         if (mode === "clip") mode = "rest";
       },
       pause: function () { paused = true; },
+      // The pointer left the page or the portrait went off screen: the follow ends.
+      leave: function () { moved = -HOME - clock; },
       resume: function (t) { paused = false; last = t; }, // the next tick sees no gap
       // Pointer moved over the page: u, v are its offset from the portrait centre in portrait sizes.
       pointer: function (u, v) { moved = clock; aim(u, v); },

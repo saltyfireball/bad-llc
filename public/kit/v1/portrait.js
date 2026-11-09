@@ -1,10 +1,9 @@
 /* Bad Omen kit v1: living portrait, the part that touches the page. Needs portrait-core.js first.
    Mark a figure: <figure data-portrait="portrait/manifest.json"><img ...></figure>.
    Near the viewport and after first paint it fetches the manifest and the blink and grid
-   atlases, then lays a video (the action clips) and a canvas (blink and grid crops) over the
-   still. Any problem leaves the still showing. No inline script or style, so a strict CSP holds
-   (script-src 'self' for the code, connect-src 'self' for the manifest, img-src 'self' for the
-   atlases, media-src 'self' for the clips). ASCII only. */
+   atlases, then lays a video (clips) and a canvas (blink and grid crops) over the still. Any
+   problem leaves the still showing. No inline script or style (CSP: script-src, connect-src,
+   img-src and media-src 'self'). ASCII only. */
 (function (win, doc) {
   var Core = win.BOPortraitCore;
   if (!Core || !win.fetch) return;
@@ -129,6 +128,7 @@
           } else {
             cancelAnimationFrame(raf);
             raf = 0;
+            core.leave();
             core.pause();
             video.pause();
           }
@@ -147,6 +147,7 @@
           io = new IntersectionObserver(function (e) { onscreen = e[e.length - 1].isIntersecting; sync(); });
           io.observe(fig);
         }
+        on(doc.documentElement, "mouseleave", function () { core.leave(); });
         on(doc, "pointermove", function (e) {
           if (onscreen && e.pointerType !== "touch") core.pointer.apply(core, at(e));
         }, { passive: true });
