@@ -7,6 +7,7 @@ Needs rsvg-convert and magick on PATH for the PNGs.
 
 import math
 import random
+import re
 import shutil
 import subprocess
 import sys
@@ -190,11 +191,47 @@ def svg(view_w, view_h, body, label, extra=""):
 
 # -------------------------------------------------------------- the raven --
 # viewBox 0 0 120 150, faces left, feet at the bottom centre (60, 150).
+# SLRM-1875: he used to be soot on a near-black page with a thin ash outline, so
+# he vanished. Now the light comes from the upper left: a bone rim that fades to
+# ash round his back, a blue-violet sheen on the feathers, a red-ringed eye with
+# a glint, and a faint bone halo behind him.
 RV_W, RV_H = 120, 150
+RV_SCALE = 0.85           # on the 240 eye (was 0.6)
+ASH_LT = "#a29d93"
+SHEEN = "#8e97ad"         # the blue-violet a raven shows in the light
+
+
+def raven_defs(prefix="raven"):
+    return (
+        f'<defs>'
+        f'<linearGradient id="{prefix}-rim" gradientUnits="userSpaceOnUse" '
+        f'x1="20" y1="10" x2="100" y2="140">'
+        f'<stop offset="0" stop-color="{BONE}"/><stop offset=".5" stop-color="#bdb6a9"/>'
+        f'<stop offset="1" stop-color="{ASH}"/></linearGradient>'
+        f'<linearGradient id="{prefix}-sheen" gradientUnits="userSpaceOnUse" '
+        f'x1="30" y1="10" x2="95" y2="140">'
+        f'<stop offset="0" stop-color="#3d4356"/><stop offset=".45" stop-color="#24262f"/>'
+        f'<stop offset="1" stop-color="#141418"/></linearGradient>'
+        f'<linearGradient id="{prefix}-wing" gradientUnits="userSpaceOnUse" '
+        f'x1="52" y1="50" x2="100" y2="136">'
+        f'<stop offset="0" stop-color="#2f3445"/><stop offset="1" stop-color="#0e0e11"/>'
+        f'</linearGradient>'
+        f'<radialGradient id="{prefix}-glow" gradientUnits="userSpaceOnUse" '
+        f'cx="58" cy="78" r="66">'
+        f'<stop offset="0" stop-color="{BONE}" stop-opacity=".18"/>'
+        f'<stop offset=".45" stop-color="{BONE}" stop-opacity=".09"/>'
+        f'<stop offset="1" stop-color="{BONE}" stop-opacity="0"/></radialGradient>'
+        f'</defs>')
+
+
+def raven_halo(prefix="raven"):
+    """The lighter field behind him. Drawn apart from the bird so it can stay put."""
+    return f'<circle id="{prefix}-halo" cx="58" cy="78" r="66" fill="url(#{prefix}-glow)"/>'
 
 
 def raven_parts(prefix="raven"):
-    rim = f'stroke="{ASH}" stroke-width="1.6" stroke-linejoin="round"'
+    rim = f'stroke="url(#{prefix}-rim)" stroke-width="1.8" stroke-linejoin="round"'
+    sheen = f'url(#{prefix}-sheen)'
     tail = poly([(76, 118), (90, 112), (112, 144), (107, 147), (104, 143), (100, 149),
                  (95, 145), (91, 149), (84, 140)])
     # body with ragged throat hackles down the front and scruffy trousers
@@ -206,12 +243,15 @@ def raven_parts(prefix="raven"):
             "M66 145L59 148M66 145L62 150M66 145L68 150M66 145L73 147")
     body_g = (
         f'<g id="{prefix}-body">'
-        f'<path fill="{SOOT}" {rim} d="{tail}"/>'
-        f'<path fill="none" stroke="{ASH}" stroke-width="3" stroke-linecap="round" '
+        f'<path fill="{sheen}" {rim} d="{tail}"/>'
+        f'<path fill="none" stroke="{ASH_LT}" stroke-width="3" stroke-linecap="round" '
         f'd="{legs}"/>'
-        f'<path fill="none" stroke="{ASH}" stroke-width="2" stroke-linecap="round" '
+        f'<path fill="none" stroke="{ASH_LT}" stroke-width="2" stroke-linecap="round" '
         f'd="{toes}"/>'
-        f'<path fill="{SOOT}" {rim} d="{body}"/>'
+        f'<path fill="{sheen}" {rim} d="{body}"/>'
+        # light catching the breast feathers
+        f'<path fill="none" stroke="{BONE}" stroke-width="1.2" stroke-linecap="round" '
+        f'opacity=".35" d="M37 86C35 100 39 114 48 124"/>'
         f'</g>')
 
     wing = ("M52 56C70 46 90 58 90 82L104 136L97 131L96 138L90 128L87 134L82 123"
@@ -220,9 +260,12 @@ def raven_parts(prefix="raven"):
                 "M68 60C78 68 86 86 92 110M58 60C68 56 78 62 82 72")
     wings_g = (
         f'<g id="{prefix}-wings">'
-        f'<path fill="{INK}" {rim} d="{wing}"/>'
-        f'<path fill="none" stroke="{ASH}" stroke-width="1" stroke-linecap="round" '
-        f'd="{feathers}"/>'
+        f'<path fill="url(#{prefix}-wing)" {rim} d="{wing}"/>'
+        f'<path fill="none" stroke="{SHEEN}" stroke-width="1.1" stroke-linecap="round" '
+        f'opacity=".8" d="{feathers}"/>'
+        # sheen along the shoulder of the wing
+        f'<path fill="none" stroke="{BONE}" stroke-width="1.3" stroke-linecap="round" '
+        f'opacity=".45" d="M56 60C68 53 83 58 88 74"/>'
         f'</g>')
 
     head = ("M35 30C35 19 43 12 52 12L53 7L56 12L61 9L60 14L65 12L63 18"
@@ -231,19 +274,21 @@ def raven_parts(prefix="raven"):
     bristles = "M40 26L33 27M40 29L32 31M41 32L34 34"
     head_g = (
         f'<g id="{prefix}-head">'
-        f'<path fill="{SOOT}" {rim} d="{head}"/>'
-        f'<path fill="#232225" {rim} d="{beak}"/>'
-        f'<path fill="none" stroke="{BONE}" stroke-width=".9" stroke-linecap="round" '
-        f'opacity=".55" d="M34 23C26 24 17 29 10 36"/>'
-        f'<path fill="none" stroke="{ASH}" stroke-width="1" stroke-linecap="round" '
+        f'<path fill="{sheen}" {rim} d="{head}"/>'
+        f'<path fill="#2c2c31" {rim} d="{beak}"/>'
+        f'<path fill="none" stroke="{BONE}" stroke-width="1" stroke-linecap="round" '
+        f'opacity=".75" d="M34 23C26 24 17 29 10 36"/>'
+        f'<path fill="none" stroke="{SHEEN}" stroke-width="1" stroke-linecap="round" '
         f'd="{bristles}"/>'
-        # the flat, half-lidded, entirely unimpressed eye
+        # the flat, half-lidded, entirely unimpressed eye: omen red ring, one glint
         f'<path fill="{BONE}" d="M46 29A5.5 5.5 0 0 0 57 29Z"/>'
-        f'<circle cx="50.5" cy="30.6" r="2.2" fill="{INK}"/>'
+        f'<circle cx="50.5" cy="30.6" r="2.4" fill="{RED}"/>'
+        f'<circle cx="50.5" cy="30.6" r="1.4" fill="{INK}"/>'
         f'<path fill="none" stroke="{BONE}" stroke-width="1.6" stroke-linecap="round" '
         f'd="M44.5 28.6L58.5 28.6"/>'
-        f'<path fill="none" stroke="{BONE}" stroke-width=".9" stroke-linecap="round" '
-        f'opacity=".45" d="M50 17C57 16 63 20 65 27"/>'
+        f'<circle cx="51.6" cy="30.5" r=".7" fill="#fff"/>'
+        f'<path fill="none" stroke="{BONE}" stroke-width="1.1" stroke-linecap="round" '
+        f'opacity=".7" d="M50 17C57 16 63 20 65 27"/>'
         f'</g>')
 
     # badge: lanyard round the neck, card tilted a touch
@@ -267,8 +312,22 @@ def raven_parts(prefix="raven"):
 RAVEN_NOTES = (
     "<!-- Raven, Director of Omens. viewBox 0 0 120 150, faces left.\n"
     "     Feet grip at the bottom centre (60,150): place that point on the ring top.\n"
-    "     Suggested size: 0.6x (72 x 90 eye units) on the 240 eye. -->"
+    "     Size: 0.85x (102 x 127.5 eye units) on the 240 eye. #raven-halo is the\n"
+    "     lighter field behind him; keep it out of anything that animates the bird. -->"
 )
+
+
+def hero_mark():
+    """The eye with the raven perched on it, inlined in index.html for the ident."""
+    w, h = RV_W * RV_SCALE, RV_H * RV_SCALE
+    x, y = C - w / 2, 24 - h          # feet on the ring top (120, 24)
+    top = math.floor(y) - 3
+    vh = 240 - top
+    return (
+        f'<svg class="omen" viewBox="0 {top} 240 {vh}" width="240" height="{vh}" '
+        f'aria-hidden="true" focusable="false">{eye_parts()}'
+        f'<g transform="translate({n(x)} {n(y)}) scale({RV_SCALE})">'
+        f'{raven_defs()}{raven_halo()}<g id="raven-drop">{raven_parts()}</g></g></svg>')
 
 
 # ------------------------------------------------------------ wordmark etc --
@@ -301,10 +360,10 @@ def favicon(rx=36):
 
 def og():
     W, H = 1200, 630
-    eye_s = 1.2                      # eye 288 px across
-    ex, ey = W / 2 - 120 * eye_s, 118
+    eye_s = 1.05                     # eye 252 px across, room for the raven above
+    ex, ey = W / 2 - 120 * eye_s, 128
     ring_top = ey + 24 * eye_s
-    rv_s = 0.6 * eye_s
+    rv_s = RV_SCALE * eye_s
     rx, ry = W / 2 - 60 * rv_s, ring_top - 150 * rv_s + 2
     _, (x0, y0, x1, y1), wd = wordmark()
     wm_w = 520
@@ -320,7 +379,8 @@ def og():
         f'<feColorMatrix values="0 0 0 0 .91 0 0 0 0 .886 0 0 0 0 .84 0 0 0 2.6 -1.25"/>'
         f'</filter>'
         f'<g transform="translate({n(ex)} {n(ey)}) scale({eye_s})">{eye_parts()}</g>'
-        f'<g transform="translate({n(rx)} {n(ry)}) scale({n(rv_s)})">{raven_parts()}</g>'
+        f'<g transform="translate({n(rx)} {n(ry)}) scale({n(rv_s)})">'
+        f'{raven_defs()}{raven_halo()}{raven_parts()}</g>'
         f'<path fill="{BONE}" transform="translate({n(wx)} {n(wy)}) scale({ws:.4f})" '
         f'd="{wd}"/>'
         f'<path fill="{ASH}" transform="translate({n(sx)} 586)" d="{sp}"/>'
@@ -338,13 +398,18 @@ def main():
     IMG.mkdir(parents=True, exist_ok=True)
     files = {
         IMG / "eye.svg": svg(240, 240, EYE_NOTES + eye_parts(), "Bad Omen eye"),
-        IMG / "raven.svg": svg(RV_W, RV_H, RAVEN_NOTES + raven_parts(),
+        IMG / "raven.svg": svg(RV_W, RV_H, RAVEN_NOTES + raven_defs() + raven_halo()
+                               + raven_parts(),
                                "A raven wearing a Director of Omens badge"),
         IMG / "wordmark.svg": wordmark()[0],
         IMG / "favicon.svg": favicon(),
         IMG / "grain.svg": grain(),
         TOOLS / "og.svg": og(),
     }
+    # the hero mark is inlined in the page so CSS can run the ident on its parts
+    page = ROOT / "public" / "index.html"
+    files[page] = re.sub(r'<svg class="omen".*?</svg>', lambda _: hero_mark(),
+                         page.read_text(), count=1, flags=re.S)
     for path, text in files.items():
         text.encode("ascii")  # every source file stays ASCII
         path.write_text(text)
