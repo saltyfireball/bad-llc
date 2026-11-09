@@ -20,6 +20,12 @@ needs a `v2/`. Epic: SLRM-1881.
 2. To check it locally, serve `public/` with any static server.
 3. Run `./deploy.sh` to publish `public/` to the preview, https://preview.bad-llc-ncd.pages.dev. `./deploy.sh main` publishes production.
 
+Cloudflare gives `.css`, `.js`, `.mp4` and `.webp` a 4 hour browser cache whatever `_headers` says, so
+`deploy.sh` uploads a staged copy where a changed file has a new URL: CSS and JS get `?v=HASH` on the
+pages, and every duet clip, still and atlas is renamed `NAME.HASH.EXT` by `tools/stamp_duet.py`, which
+rewrites the manifests and the page to match. Keep plain names in `public/`; the stamping happens only
+at deploy.
+
 `deploy.sh` never attaches domains or touches DNS. bad.llc carries live Proton Mail records (MX, SPF, DKIM, DMARC): leave them alone.
 
 ## The duet
