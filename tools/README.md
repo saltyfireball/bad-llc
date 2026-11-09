@@ -16,6 +16,8 @@ It writes:
 - `public/img/eye.svg`, `raven.svg`, `wordmark.svg`, `favicon.svg`, `grain.svg`
 - `public/img/favicon-32.png`, `apple-touch-icon.png` (from `tools/apple-touch-icon.svg`)
 - `public/img/og.png` (1200x630, from `tools/og.svg`)
+- the inline hero mark in `public/index.html` (the `<svg class="omen">`: the eye with
+  the raven perched on it, inlined so CSS can run the ident on its parts)
 
 `glyphs.py` outlines text to SVG path data with fontTools. The wear on the eye
 is a seeded mask, so output is the same on every run. Geometry notes for the

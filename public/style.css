@@ -130,9 +130,10 @@ a { color: inherit; }
 
 /* ---------- Ident (SLRM-1782) ----------
    Decoration only: the hero text paints at once. 0-.8s ring and eye fade in,
-   .7-1.2s the raven drops onto the ring, 1.2-1.65s head tilt, 1.7-2s blink,
-   2-2.5s the kicker settles in. html.ident-off (omen.js: seen this visit, or a
-   click or key) and reduced motion show the end state. */
+   .7-1.2s the raven drops onto the ring (.8-1.3s his halo fades in behind him),
+   1.2-1.65s head tilt, 1.7-2s blink, 2-2.5s the kicker settles in.
+   html.ident-off (omen.js: seen this visit, or a click or key) and reduced
+   motion show the end state. */
 
 #omen-lid-top,
 #omen-lid-bottom { transform-box: view-box; }
@@ -145,6 +146,7 @@ a { color: inherit; }
   html:not(.ident-off) #omen-eye,
   html:not(.ident-off) #omen-eye-outline { animation: omen-fade .5s .3s ease-out both; }
   html:not(.ident-off) #raven-drop { animation: omen-drop .5s .7s both; }
+  html:not(.ident-off) #raven-halo { animation: omen-fade .5s .8s ease-out both; }
   html:not(.ident-off) #raven-head { animation: omen-tilt .45s 1.2s ease-in-out both; }
   html:not(.ident-off) #omen-lid-top,
   html:not(.ident-off) #omen-lid-bottom { animation: omen-blink .3s 1.7s ease-in-out both; }
