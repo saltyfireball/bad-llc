@@ -23,3 +23,17 @@ It writes:
 is a seeded mask, so output is the same on every run. Geometry notes for the
 animation (ids, ring top, eye centre line) are in the comments at the top of
 `eye.svg` and `raven.svg`.
+
+## sitecheck.py
+
+The pre-ship check for every Bad Omen site (bad.llc, cassie.sh, carrie.sh):
+
+    ~/.venvs/claude/bin/python tools/sitecheck.py URL OUTDIR
+
+Lighthouse (mobile and desktop) in Google Chrome, then Chromium and WebKit
+(Safari's engine) at 390x844 and 1440x900, each with JS on, JS off and reduced
+motion. It fails on a Lighthouse category under 90, horizontal overflow,
+missing text or kit footer, console errors, failed or third-party requests, or
+animations still running under reduced motion. On a `*.pages.dev` preview it
+leaves out the SEO crawlability audit, since Pages marks previews noindex.
+Screenshots and `report.md` land in OUTDIR.
