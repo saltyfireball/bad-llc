@@ -54,6 +54,11 @@ is over budget; the bits live in `portrait/duet.json` and `portrait/actions/*-du
 
 ## Text and motion
 
-Text is readable on first paint. The studio ident never blocks it, runs once, skips on a click or key, and is off under `prefers-reduced-motion`.
+Text is readable on first paint. The studio ident is a 9-second video in the hero (`public/kit/v1/ident/`,
+made from `tools/ident/`) in a box reserved before it loads, so it never blocks or moves the text. It plays once a
+visit, muted, and holds its last frame; later visits show the poster with a Replay button. Its own Skip button
+jumps to the end, and Sound: off restarts it with sound. Under `prefers-reduced-motion` it shows the poster and
+waits for Play. Without JavaScript it is the poster with native controls; if the video cannot play, the old SVG
+mark shows in its place, with its own CSS ident that skips on a click or key and is off under reduced motion.
 
 `no-transform` in `public/_headers` is there on purpose: it stops Cloudflare adding its analytics script to the page.

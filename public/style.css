@@ -80,10 +80,30 @@ a { color: inherit; }
 .mark svg,
 .mark img { display: block; width: 100%; height: auto; }
 
-/* ---------- Ident (SLRM-1782) ----------
-   Decoration only: the hero text paints at once. 0-.8s ring and eye fade in,
-   .7-1.2s the raven drops onto the ring (.8-1.3s his halo fades in behind him),
-   1.2-1.65s head tilt, 1.7-2s blink, 2-2.5s the kicker settles in.
+/* ---------- Hero ident video (SLRM-1922) ----------
+   The kit's .bo-ident (kit/v1/ident/) is the hero's visual. Sized so the
+   16:9 box, wordmark and buttons fit a laptop screen; the box is reserved
+   before the video loads. Where the video cannot play, the old mark shows
+   inside the same box (.bo-ident-fallback), so nothing shifts. */
+
+.hero-ident {
+  width: min(100%, 46rem, max(20rem, (100vh - 33rem) * 16 / 9));
+  width: min(100%, 46rem, max(20rem, (100svh - 33rem) * 16 / 9));
+  margin-bottom: clamp(1.25rem, 3vh, 2rem);
+}
+.hero-ident .mark {
+  width: auto;
+  margin: 0;
+  padding: 3% 0;
+}
+.hero-ident .mark svg { width: auto; height: 100%; }
+
+/* ---------- Mark ident (SLRM-1782), now the fallback only ----------
+   Runs on the SVG mark wherever it is shown: the 404 page, and the hero when
+   the video cannot play. 0-.8s ring and eye fade in, .7-1.2s the raven drops
+   onto the ring (.8-1.3s his halo fades in behind him), 1.2-1.65s head tilt,
+   1.7-2s blink. The kicker settle it used to end on is retired: the video
+   carries its own "A Bad Omen project." card, and the hero text paints at once.
    html.ident-off (omen.js: seen this visit, or a click or key) and reduced
    motion show the end state. */
 
@@ -102,7 +122,6 @@ a { color: inherit; }
   html:not(.ident-off) #raven-head { animation: omen-tilt .45s 1.2s ease-in-out both; }
   html:not(.ident-off) #omen-lid-top,
   html:not(.ident-off) #omen-lid-bottom { animation: omen-blink .3s 1.7s ease-in-out both; }
-  html:not(.ident-off) .hero-pre { animation: omen-settle .5s 2s ease-out both; }
 }
 /* The Konami blink, on request, motion preference or not: it is one blink. */
 html.blink #omen-lid-top,
@@ -123,7 +142,6 @@ html.blink #omen-lid-bottom { animation: omen-blink .3s ease-in-out; }
   0%, 100% { transform: scaleY(0); }
   45%, 55% { transform: scaleY(1); }
 }
-@keyframes omen-settle { from { opacity: 0; transform: translateY(.6em); } }
 
 .hero-pre,
 .hero-post {

@@ -1,0 +1,51 @@
+/* Bad Omen ident (kit v1). Needs tokens.css first. ASCII only.
+   The figure reserves its 16:9 box before anything loads, so nothing moves.
+   ident.js adds the buttons; without it the video keeps native controls. */
+
+.bo-ident {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 16 / 9;
+  background: var(--bo-ink);
+}
+.bo-ident video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: var(--bo-ink);
+}
+
+/* Shown only when the video cannot play (ident.js adds .is-failed). */
+.bo-ident-fallback { display: none; }
+.bo-ident.is-failed { background: none; }
+.bo-ident.is-failed video,
+.bo-ident.is-failed .bo-ident-bar { display: none; }
+.bo-ident.is-failed .bo-ident-fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bo-ident-bar {
+  position: absolute;
+  left: clamp(.5rem, 1.6%, 1rem);
+  bottom: clamp(.5rem, 2.8%, 1rem);
+  display: flex;
+  gap: .5rem;
+}
+.bo-ident-btn {
+  min-height: 2rem;
+  padding: .55rem .75rem .5rem;
+  border: 1px solid var(--bo-ash);
+  background: rgba(11, 11, 12, .72);
+  color: var(--bo-bone);
+  font: .6875rem/1 var(--bo-mono);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.bo-ident-btn:hover { border-color: var(--bo-bone); }
+.bo-ident-btn:active { transform: translateY(1px); }
