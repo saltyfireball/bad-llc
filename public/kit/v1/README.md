@@ -3,9 +3,9 @@
 The shared look of every Bad Omen site: fonts, colors, spacing, the footer,
 and the voice. bad.llc runs on it; cassie.sh and carrie.sh copy it.
 
-Static files only. No build step, no script, no trackers, no outside requests,
-so it works under a strict `default-src 'none'` CSP with `'self'` for styles
-and fonts.
+Static files only. No build step, no trackers, no outside requests, so it
+works under a strict `default-src 'none'` CSP with `'self'` for styles and
+fonts. The optional living portrait adds `'self'` scripts and `media-src 'self'`.
 
 ## Files
 
@@ -15,6 +15,9 @@ and fonts.
 | `footer.css` | The shared footer (`.bo-foot`). Needs `tokens.css` first |
 | `footer.html` | The footer markup to paste at the end of `<body>` |
 | `template.html` | A starter page with both stylesheets and the footer wired in |
+| `portrait-core.js` | The living portrait's state machine (`BOPortraitCore`): blinks, eyes, clips. No DOM |
+| `portrait.js` | The living portrait player for one `[data-portrait]` still. Needs `portrait-core.js` first |
+| `portrait.css` | The video and canvas layers the portrait players lay over the still |
 | `VOICE.md` | How Bad Omen copy sounds, and what it never says |
 | `fonts/` | Pirata One, Geist, Geist Mono, Spectral (all OFL, licenses beside them) |
 
