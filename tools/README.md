@@ -3,7 +3,7 @@
 `art.py` regenerates every image in `public/img/` from code. All shapes are
 hand-built paths in the script; the only outside outlines are Pirata One
 (wordmark) and Geist Mono (raven badge, og small print), both OFL and read
-from `public/fonts/`.
+from `public/kit/v1/fonts/`.
 
 Run from the repo root:
 

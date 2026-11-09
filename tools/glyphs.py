@@ -8,7 +8,7 @@ from fontTools.pens.svgPathPen import SVGPathPen
 from fontTools.pens.transformPen import TransformPen
 from fontTools.ttLib import TTFont
 
-FONTS = Path(__file__).resolve().parent.parent / "public" / "fonts"
+FONTS = Path(__file__).resolve().parent.parent / "public" / "kit" / "v1" / "fonts"
 PIRATA = FONTS / "pirata-one-latin-400-normal.woff2"
 MONO = FONTS / "geist-mono-latin-400-normal.woff2"
 
