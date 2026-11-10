@@ -74,14 +74,14 @@ log "ident-poster.jpg"
 # Web copies: 1280x720, the lowest CRF that fits the size target, so the
 # dark gradients keep as many bits as the budget allows.
 SCALE=(-vf "scale=1280:720:flags=lanczos")
-for crf in 20 22 24 26 28; do
+for crf in 18 20 22 24 26 28; do
     log "web ident.mp4 crf $crf"
     "${FF[@]}" "${IN[@]}" -i "$WAV" -map 0:v -map 1:a -t "$DUR" "${SCALE[@]}" \
         -c:v libx264 -profile:v high -preset slow -tune film -crf "$crf" \
         -pix_fmt yuv420p -c:a aac -b:a 128k -movflags +faststart "$WEB/ident.mp4"
     [ "$(size "$WEB/ident.mp4")" -le "$MP4_MAX" ] && break
 done
-for crf in 34 36 38 40 42; do
+for crf in 30 32 34 36 38 40 42; do
     log "web ident.webm crf $crf"
     "${FF[@]}" "${IN[@]}" -i "$WAV" -map 0:v -map 1:a -t "$DUR" "${SCALE[@]}" \
         -c:v libvpx-vp9 -crf "$crf" -b:v 0 -row-mt 1 -pix_fmt yuv420p \
