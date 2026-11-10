@@ -15,8 +15,8 @@
   "clip_tolerance": 2.5
  },
  "shirt_only": false,
- "render_seconds": 88.53,
- "bytes": 1162029,
+ "render_seconds": 86.13,
+ "bytes": 1159378,
  "budget": 1572864,
  "within_budget": true,
  "loops": {
@@ -87,45 +87,45 @@
    "ok": true
   },
   "glare": {
-   "first": 1.3965,
-   "last": 1.3052,
+   "first": 1.3885,
+   "last": 1.3041,
    "frames": 102,
-   "bytes": 162676,
+   "bytes": 162029,
    "ok": true
   },
   "roll": {
-   "first": 1.2708,
-   "last": 1.3126,
+   "first": 1.2716,
+   "last": 1.3147,
    "frames": 102,
-   "bytes": 157990,
+   "bytes": 154241,
    "ok": true
   },
   "stare-first": {
-   "first": 1.4146,
-   "last": 1.2957,
+   "first": 1.4115,
+   "last": 1.3059,
    "frames": 97,
-   "bytes": 179444,
+   "bytes": 180823,
    "ok": true
   },
   "stare-back": {
-   "first": 1.3161,
-   "last": 1.3341,
+   "first": 1.3167,
+   "last": 1.3367,
    "frames": 97,
-   "bytes": 174254,
+   "bytes": 174713,
    "ok": true
   },
   "watch": {
-   "first": 1.3502,
-   "last": 1.3128,
+   "first": 1.3511,
+   "last": 1.3053,
    "frames": 116,
-   "bytes": 180343,
+   "bytes": 179922,
    "ok": true
   },
   "catch": {
-   "first": 1.2721,
-   "last": 1.3016,
+   "first": 1.2702,
+   "last": 1.2995,
    "frames": 116,
-   "bytes": 134151,
+   "bytes": 134479,
    "ok": true
   }
  },
@@ -141,37 +141,37 @@
    "frames": 102,
    "rest_frames": null,
    "size": "480x600",
-   "bytes": 162676
+   "bytes": 162029
   },
   "clip roll": {
    "frames": 102,
    "rest_frames": null,
    "size": "480x600",
-   "bytes": 157990
+   "bytes": 154241
   },
   "clip stare-first": {
    "frames": 97,
    "rest_frames": null,
    "size": "480x600",
-   "bytes": 179444
+   "bytes": 180823
   },
   "clip stare-back": {
    "frames": 97,
    "rest_frames": null,
    "size": "480x600",
-   "bytes": 174254
+   "bytes": 174713
   },
   "clip watch": {
    "frames": 116,
    "rest_frames": null,
    "size": "480x600",
-   "bytes": 180343
+   "bytes": 179922
   },
   "clip catch": {
    "frames": 116,
    "rest_frames": null,
    "size": "480x600",
-   "bytes": 134151
+   "bytes": 134479
   },
   "blink atlas": {
    "frames": 7,
@@ -193,6 +193,6 @@
   }
  },
  "backdrop": "#121213",
- "total_seconds": 94.42,
+ "total_seconds": 91.4,
  "ok": true
 }
