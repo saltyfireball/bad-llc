@@ -493,6 +493,8 @@ html.blink #omen-lid-bottom { animation: omen-blink .3s ease-in-out; }
   .dossier-stamp { display: block; }
 }
 
+/* The list is .staff-list, not .staff: .staff is the duet band above, a centred flex row
+   that squeezed all five entries into one overflowing line (SLRM-1952). */
 .staff-row {
   display: grid;
   gap: .25rem 2rem;
@@ -503,10 +505,10 @@ html.blink #omen-lid-bottom { animation: omen-blink .3s ease-in-out; }
 @media (min-width: 40em) {
   .staff-row { grid-template-columns: 10rem 1fr; }
 }
-.staff dt {
+.staff-list dt {
   font: 1.75rem/1.1 var(--bo-display);
 }
-.staff dd { max-width: 38rem; }
+.staff-list dd { max-width: 38rem; }
 .staff-role {
   display: block;
   margin-bottom: .2rem;
@@ -669,6 +671,9 @@ html.blink #omen-lid-bottom { animation: omen-blink .3s ease-in-out; }
 
 /* The footer itself is the kit's (kit/v1/footer.css); these are bad.llc's own lines. */
 .foot-mark { color: var(--bo-bone); letter-spacing: .18em; text-transform: uppercase; }
+/* A 24px tall tap target on the site links: vertical padding on an inline box grows the
+   hit area without moving the line (SLRM-1952). */
+.bo-foot-nav a { padding: .3125rem 0; }
 .label-body a { text-decoration: underline; text-underline-offset: .2em; }
 .eggs:empty { display: none; }
 
