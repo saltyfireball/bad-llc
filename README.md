@@ -14,6 +14,12 @@ guide (`VOICE.md`). bad.llc loads it like any other site would; cassie.sh and
 carrie.sh copy the folder. Its own README covers using it and when a change
 needs a `v2/`. Epic: SLRM-1881.
 
+Sections sit one `--bo-section` apart, set in `style.css` rather than the frozen kit: 3.5rem on a phone,
+6rem on a desktop, the same on all three sites (SLRM-1953). `tests/test_spacing.py` loads the page in
+headless Chromium and WebKit at 375, 390, 768, 1280 and 1440px and fails when the visible gap between
+two sections passes 64px on a phone or 104px wider (the hero may add 48px). It needs Playwright, so run
+`~/.venvs/claude/bin/python -m unittest discover tests`; plain `python3` skips it.
+
 ## Updating the page
 
 1. Edit the files in `public/` directly. There is no build step. JavaScript is tiny, deferred and only for easter eggs; the page works without it.
