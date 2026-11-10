@@ -46,7 +46,7 @@ Without JavaScript, or under `prefers-reduced-motion`, the page shows the two st
 - The CSP allows `media-src 'self'` for the clips; scripts stay `'self'`.
 
 Only rendered frames are committed: never the models, their textures, mocap or anything they come
-from. `python3 -m unittest discover tests` checks that `public/duet/` stays under 1.5 MB, that every
+from. `python3 -m unittest discover tests` checks that `public/duet/` stays under 2.5 MB (the duet budget, SLRM-1951), that every
 file the manifests name exists, that the halves of each bit match in length, and that no model or
 mocap file is anywhere in `public/`.
 
