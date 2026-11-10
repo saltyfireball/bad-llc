@@ -8,7 +8,7 @@ from pathlib import Path
 
 PUBLIC = Path(__file__).resolve().parent.parent / "public"
 DUET = PUBLIC / "duet"
-BUDGET = 1_572_864  # 1.5 MB for everything in public/duet/, both sides together
+BUDGET = 2_621_440  # 2.5 MB for everything in public/duet/, both sides together (SLRM-1951)
 PRIVATE = {".vrm", ".glb", ".gltf", ".fbx", ".blend", ".bvh"}
 
 
