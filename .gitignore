@@ -1,2 +1,5 @@
 .wrangler
 .DS_Store
+tools/ident/out/
+tools/ident/*.blend
+tools/ident/*.blend1
