@@ -1,9 +1,11 @@
-/* bad.llc duet (SLRM-1921): Cassie and Carrie in one frame, playing paired bits in sync.
+/* bad.llc duet (SLRM-1921): Cassie and Carrie in one frame, playing paired bits.
    Needs kit/v1/portrait-core.js first. Mark the frame:
      <figure data-duet="duet/duet.json"> ... <div data-side="left"><img></div> <div data-side="right"><img></div>
    Each side gets the kit's state machine (BOPortraitCore) for blinks and cursor-following eyes, with its own
    clips switched off (drop()). This file owns the clips: every few seconds (duet.json "every"), or on hover or
    tap, it picks a bit, waits until both sides are on rest, then starts both halves together. Never two at once.
+   Between bits each side follows the pointer on her own clock (SLRM-1948): every time the pointer starts moving,
+   one of them looks first and the other answers late, only half turns, or ignores it.
    No JS, reduced motion or any error: the two stills only. No inline script or style. ASCII only. */
 (function (win, doc) {
   var Core = win.BOPortraitCore, fig = doc.querySelector("[data-duet]");
@@ -11,6 +13,9 @@
 
   var still = win.matchMedia("(prefers-reduced-motion: reduce)"), OFF = "bo-portrait-off", SIDES = ["left", "right"],
     WAIT = 3, LOAD = 10, LATE = 4,   // seconds: to reach rest, to load both clips, past a clip's end
+    QUIET = 1.2,                     // seconds of a still pointer before its next move is a new look
+    FIRST = [0.02, 0.1], LAG = [0.3, 0.7],   // seconds behind the pointer: the one who looks, the other
+    HALF = 0.25, DEAF = 0.2,         // chances the other only half turns (one cell), or does not look at all
     run = 0, stop = function () {};
 
   function num(v) { return typeof v === "number" && isFinite(v); }
@@ -70,7 +75,7 @@
 
     function start() {
       var clock = 0, last = null, bit = null, lastBit = null, poked = false, coolUntil = 0, clips = true,
-        next = span(D.every);
+        next = span(D.every), moved = -Infinity;
 
       function span(r) { return r[0] + (r[1] - r[0]) * Math.random(); }
 
@@ -80,6 +85,9 @@
         S.box = box;
         S.core = Core.create(m);
         S.core.drop();                       // the duet plays the clips, the core only blinks and looks
+        S.q = [];                            // pointer moves not yet passed on: [time, method, u, v]
+        S.lag = 0;
+        S.how = "pointer";                   // or "tap" (one cell at most), or null (not looking)
         canvas = doc.createElement("canvas");
         canvas.width = m.width * d;
         canvas.height = m.height * d;
@@ -198,11 +206,12 @@
           if (!bit && clips && (poked || clock >= next)) {
             poked = false;
             bit = { b: pick(), phase: "wait", t: 0, n: Math.random(), ended: { left: false, right: false }, ready: {} };
-            SIDES.forEach(function (s) { sides[s].core.leave(); });
+            SIDES.forEach(function (s) { sides[s].q.length = 0; sides[s].core.leave(); });
           }
           if (!bit || bit.phase === "wait") {
             SIDES.forEach(function (s) {
               var S = sides[s];
+              pass(S);
               S.f = S.core.tick(now);
               draw(S, S.f);
             });
@@ -231,12 +240,33 @@
         }
       }
       function on(t, e, f, o) { t.addEventListener(e, f, o); off.push(function () { t.removeEventListener(e, f, o); }); }
+      // A move after a quiet spell is a new look: one side (either) follows at once, the other late, by half
+      // or not at all. Each side's moves wait in its queue for its lag, so the two never step their eyes,
+      // blink-shut or come home on the same frame.
       function aim(e, method) {
         if (bit) return;
+        if (clock - moved > QUIET) {
+          var lead = Math.random() < 0.5 ? 0 : 1, r = Math.random();
+          SIDES.forEach(function (s, i) {
+            var S = sides[s];
+            S.lag = span(i === lead ? FIRST : LAG);
+            S.how = i === lead ? method : r < DEAF ? null : r < DEAF + HALF ? "tap" : method;
+          });
+        }
+        moved = clock;
         SIDES.forEach(function (s) {
-          var r = sides[s].box.getBoundingClientRect();
-          sides[s].core[method]((e.clientX - r.left) / r.width - 0.5, (e.clientY - r.top) / r.height - 0.5);
+          var S = sides[s], b = S.box.getBoundingClientRect();
+          if (S.how) S.q.push([clock, S.how, (e.clientX - b.left) / b.width - 0.5, (e.clientY - b.top) / b.height - 0.5]);
+          if (S.q.length > 240) S.q.shift();
         });
+      }
+      // Hand a side the moves that have waited out its lag ("leave" too, so she also looks home late).
+      function pass(S) {
+        while (S.q.length && S.q[0][0] <= clock - S.lag) {
+          var a = S.q.shift();
+          if (a[1] === "leave") S.core.leave();
+          else S.core[a[1]](a[2], a[3]);
+        }
       }
       function poke() { if (!bit && clips && clock >= coolUntil) poked = true; }
 
@@ -245,7 +275,7 @@
         io = new IntersectionObserver(function (e) { onscreen = e[e.length - 1].isIntersecting; sync(); });
         io.observe(fig);
       }
-      on(doc.documentElement, "mouseleave", function () { SIDES.forEach(function (s) { sides[s].core.leave(); }); });
+      on(doc.documentElement, "mouseleave", function () { SIDES.forEach(function (s) { sides[s].q.push([clock, "leave"]); }); });
       on(doc, "pointermove", function (e) { if (onscreen && e.pointerType !== "touch") aim(e, "pointer"); }, { passive: true });
       on(fig, "pointerenter", function (e) { if (e.pointerType !== "touch") poke(); });
       on(fig, "pointerdown", function (e) {
