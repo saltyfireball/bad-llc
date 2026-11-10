@@ -31,10 +31,12 @@ at deploy.
 ## The duet
 
 Under the wordmark, Cassandra (left) and Carrie (right) share one frame and play short bits together:
-one glares and the other rolls her eyes, a stare-down, or one gets caught watching the other. A random
-bit plays every 10 to 25 seconds, and hover or a tap starts one (never two at once). Between bits both
-blink and follow the cursor with their eyes. Without JavaScript, or under `prefers-reduced-motion`,
-the page shows the two stills only.
+one glares and the other rolls her eyes, a stare-down (one stares first, the other answers late and
+holds on longer), or one gets caught watching the other. Each bit comes in both orders, and its halves
+act in counterpoint, never on the same frame (SLRM-1948). A random bit plays every 10 to 25 seconds, and
+hover or a tap starts one (never two at once). Between bits both blink and follow the cursor with their
+eyes, each on her own clock: one looks first, and the other looks late, only half turns, or ignores it.
+Without JavaScript, or under `prefers-reduced-motion`, the page shows the two stills only.
 
 - `public/duet/` holds the baked frames: `duet.json` (the bits, which clip each side plays and how
   long) and a `cassandra/` and `carrie/` folder, each an ordinary portrait bake (manifest, H.264
