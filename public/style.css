@@ -2,6 +2,12 @@
 
 /* Fonts and every --bo-* token come from kit/v1/tokens.css, loaded first. */
 
+:root {
+  /* One gap between sections (SLRM-1953): the kit's 4.5 to 8.5rem stacked on each section's own
+     heading space read as too much. 3.5rem on a phone, 6rem from about 1280px. Same on all three sites. */
+  --bo-section: clamp(3.5rem, 2rem + 5vw, 6rem);
+}
+
 *, *::before, *::after { box-sizing: border-box; }
 
 html {
@@ -185,7 +191,8 @@ html.blink #omen-lid-bottom { animation: omen-blink .3s ease-in-out; }
 .staff {
   display: flex;
   justify-content: center;
-  padding: clamp(2.5rem, 7vw, 4.5rem) var(--bo-gut) 0;
+  /* the hero already ends in 3.5rem of padding: top it up to one section gap, no more */
+  padding: max(0rem, var(--bo-section) - 3.5rem) var(--bo-gut) 0;
 }
 .duet {
   width: min(100%, 40rem);
@@ -283,7 +290,7 @@ html.blink #omen-lid-bottom { animation: omen-blink .3s ease-in-out; }
 .section {
   max-width: var(--bo-wrap);
   margin: 0 auto;
-  padding: clamp(4.5rem, 11vw, 8.5rem) var(--bo-gut) 0;
+  padding: var(--bo-section) var(--bo-gut) 0;
 }
 
 .kicker {
@@ -410,7 +417,7 @@ html.blink #omen-lid-bottom { animation: omen-blink .3s ease-in-out; }
   padding: 1.6rem 0;
   border-bottom: 1px solid var(--bo-line);
 }
-.proj:last-child { border-bottom: 0; }
+.proj:last-child { border-bottom: 0; padding-bottom: 0; }
 @media (min-width: 48em) {
   .proj {
     grid-template-columns: 12rem 1fr auto;
@@ -674,6 +681,8 @@ html.blink #omen-lid-bottom { animation: omen-blink .3s ease-in-out; }
 /* A 24px tall tap target on the site links: vertical padding on an inline box grows the
    hit area without moving the line (SLRM-1952). */
 .bo-foot-nav a { padding: .3125rem 0; }
+/* one section gap below the page, not the kit's own 5 to 9rem (SLRM-1953) */
+.bo-foot { margin-top: var(--bo-section); }
 .label-body a { text-decoration: underline; text-underline-offset: .2em; }
 .eggs:empty { display: none; }
 
