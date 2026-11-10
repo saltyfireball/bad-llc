@@ -1,11 +1,13 @@
-/* Bad Omen ident (kit v1). Plays once a visit, muted, and holds its last frame.
+/* Bad Omen ident (kit v1). Plays once a visit, muted, when it scrolls into
+   view, and holds its last frame.
    Later visits and reduced motion get the poster and a button. No JS: the
    poster and native controls. If the video cannot play, .bo-ident-fallback
    shows instead. A click or key elsewhere on the page leaves it alone. */
 (function () {
   var d = document, seen = false,
     calm = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-  try { seen = !!sessionStorage.getItem("bo-ident"); sessionStorage.setItem("bo-ident", "1"); } catch (e) {}
+  try { seen = !!sessionStorage.getItem("bo-ident"); } catch (e) {}
+  function mark() { try { sessionStorage.setItem("bo-ident", "1"); } catch (e) {} }
 
   function button(cls) {
     var b = d.createElement("button");
@@ -58,6 +60,16 @@
     f.appendChild(bar);
     f.classList.add("is-js");
     label();
-    if (!seen && !calm) run();
+    if (seen || calm) return;
+    // Autoplay waits until most of it is on screen, so an ident lower on the
+    // page is not over before anyone scrolls to it. The visit counts once it starts.
+    if (!window.IntersectionObserver) { mark(); return run(); }
+    var io = new IntersectionObserver(function (es) {
+      if (!es[0].isIntersecting || started) return;
+      io.disconnect();
+      mark();
+      run();
+    }, { threshold: 0.6 });
+    io.observe(f);
   });
 })();

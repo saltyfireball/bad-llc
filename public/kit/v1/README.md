@@ -62,7 +62,8 @@ The figure takes the width of its container and reserves a 16:9 box before
 anything loads, so nothing on the page moves. Give it a width in the site's
 own CSS. What it does:
 
-- First visit in a tab session: plays once, muted, and stops on its last
+- First visit in a tab session: once most of it is on screen, plays once,
+  muted, and stops on its last
   frame. No loop, no fade.
 - Later visits (sessionStorage `bo-ident`): the poster, with a Replay button.
 - `prefers-reduced-motion: reduce`: the poster, with a Play button. Nothing
