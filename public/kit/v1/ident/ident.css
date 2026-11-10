@@ -6,6 +6,7 @@
   position: relative;
   margin: 0;
   aspect-ratio: 16 / 9;
+  container-type: inline-size;
   background: var(--bo-ink);
 }
 .bo-ident video {
@@ -31,8 +32,8 @@
 
 .bo-ident-bar {
   position: absolute;
-  left: clamp(.5rem, 1.6%, 1rem);
-  bottom: clamp(.5rem, 2.8%, 1rem);
+  right: clamp(.5rem, 1.6%, 1rem);
+  top: clamp(.5rem, 2.8%, 1rem);
   display: flex;
   gap: .5rem;
 }
@@ -49,3 +50,9 @@
 }
 .bo-ident-btn:hover { border-color: var(--bo-bone); }
 .bo-ident-btn:active { transform: translateY(1px); }
+
+/* A small ident (a phone, a sidebar) gets small buttons, clear of the mirror. */
+@container (max-width: 30rem) {
+  .bo-ident-bar { gap: .375rem; }
+  .bo-ident-btn { min-height: 1.5rem; padding: .4rem .5rem .35rem; font-size: .5625rem; letter-spacing: .12em; }
+}
