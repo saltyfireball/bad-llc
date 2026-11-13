@@ -3,7 +3,9 @@
   var d = document, h = d.documentElement, keys = [],
     seq = "ArrowUp ArrowUp ArrowDown ArrowDown ArrowLeft ArrowRight ArrowLeft ArrowRight b a";
 
-  // Ident: CSS runs it. Seen this visit, or any click or key, jumps to the end.
+  // Mark ident: CSS runs it on the SVG mark (the 404, or the hero when its video
+  // cannot play). Seen this visit, or any click or key, jumps to the end. The
+  // hero video is kit/v1/ident/ident.js and ignores this.
   function skip() { h.classList.add("ident-off"); }
   try { if (sessionStorage.omen) skip(); sessionStorage.omen = 1; } catch (e) {}
   d.addEventListener("pointerdown", skip, { once: true });
