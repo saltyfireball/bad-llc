@@ -1,0 +1,27 @@
+<!doctype html>
+<!-- Bad Omen kit v1: living portrait demo. A made-up face from tools/portrait_demo.py, no real art.
+     No inline script or style: it runs under script-src 'self'; style-src 'self'; media-src 'self'. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Living portrait demo &middot; Bad Omen</title>
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="dark">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../portrait.css">
+<link rel="stylesheet" href="demo.css">
+<script src="../portrait-core.js" defer></script>
+<script src="../portrait.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="pre">Kit demo</p>
+  <h1>Living portrait</h1>
+  <p class="lede">Move the cursor near her. Hover to poke. Without script, or with reduced motion, you get the still.</p>
+  <figure class="demo-figure" data-portrait="portrait/manifest.json">
+    <img src="portrait/rest.webp" srcset="portrait/rest@2x.webp 2x" width="160" height="200" alt="A made-up face drawn from shapes.">
+  </figure>
+</main>
+</body>
+</html>

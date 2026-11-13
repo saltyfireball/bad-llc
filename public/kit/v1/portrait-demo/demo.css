@@ -1,0 +1,13 @@
+/* Demo page only. The kit's own styles are tokens.css and portrait.css. */
+body {
+  margin: 0;
+  background: var(--bo-ink);
+  color: var(--bo-bone);
+  font: 400 var(--bo-text-body)/1.6 var(--bo-sans);
+}
+main { max-width: var(--bo-wrap); margin: 0 auto; padding: var(--bo-section) var(--bo-gut); }
+.pre { margin: 0; font: var(--bo-text-label)/1.4 var(--bo-mono); text-transform: uppercase; color: var(--bo-ash-lt); }
+h1 { margin: var(--bo-space-2) 0 var(--bo-space-4); font: 400 var(--bo-text-h2)/.95 var(--bo-display); }
+.lede { max-width: 34ch; color: var(--bo-bone-2); }
+.demo-figure { width: 160px; margin: var(--bo-space-5) 0 0; }
+.demo-figure img { width: 100%; height: auto; }

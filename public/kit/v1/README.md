@@ -3,9 +3,10 @@
 The shared look of every Bad Omen site: fonts, colors, spacing, the footer,
 and the voice. bad.llc runs on it; cassie.sh and carrie.sh copy it.
 
-Static files only. No build step, no trackers, no outside requests, so it
-works under a strict `default-src 'none'` CSP with `'self'` for styles and
-fonts. The optional living portrait adds `'self'` scripts and `media-src 'self'`.
+Static files only. No build step, no trackers, no outside requests, so it works
+under a strict `default-src 'none'` CSP with `'self'` for styles and fonts. The
+only script is the optional living portrait (below), which needs `script-src 'self'`
+and `media-src 'self'`.
 
 ## Files
 
@@ -15,9 +16,8 @@ fonts. The optional living portrait adds `'self'` scripts and `media-src 'self'`
 | `footer.css` | The shared footer (`.bo-foot`). Needs `tokens.css` first |
 | `footer.html` | The footer markup to paste at the end of `<body>` |
 | `template.html` | A starter page with both stylesheets and the footer wired in |
-| `portrait-core.js` | The living portrait's state machine (`BOPortraitCore`): blinks, eyes, clips. No DOM |
-| `portrait.js` | The living portrait player for one `[data-portrait]` still. Needs `portrait-core.js` first |
-| `portrait.css` | The video and canvas layers the portrait players lay over the still |
+| `portrait-core.js`, `portrait.js`, `portrait.css` | The living portrait: a still that breathes, blinks and follows the cursor (see below) |
+| `portrait-demo/` | A made-up face baked in the portrait format (H.264 clips and WebP atlases), to try it with |
 | `VOICE.md` | How Bad Omen copy sounds, and what it never says |
 | `fonts/` | Pirata One, Geist, Geist Mono, Spectral (all OFL, licenses beside them) |
 | `ident/` | The studio ident: a 9-second video, its poster, and the CSS and JS that play it. Optional |
@@ -37,6 +37,57 @@ fonts. The optional living portrait adds `'self'` scripts and `media-src 'self'`
 
 The canonical copy lives in the bad-llc repo at `public/kit/v1/` and is served
 at https://bad.llc/kit/v1/.
+
+## Living portrait
+
+A still `img` that comes alive: breathing, blinking, an idle now and then, eyes
+and head following the cursor, a poke on hover. Without script, under
+`prefers-reduced-motion: reduce`, or on any error it is just the `img`. No
+dependencies, under 6 KB gzipped for both scripts (a test checks it).
+
+Markup. The `img` is the still and is what the page paints first:
+
+    <link rel="stylesheet" href="kit/v1/portrait.css">
+    ...
+    <figure data-portrait="portrait/manifest.json">
+      <img src="portrait/rest.webp" srcset="portrait/rest@2x.webp 2x"
+           width="350" height="420" alt="...">
+    </figure>
+    <script src="kit/v1/portrait-core.js" defer></script>
+    <script src="kit/v1/portrait.js" defer></script>
+
+- `data-portrait` is the manifest's path. The manifest, the stills, the clips
+  and the atlases sit in that one folder (`public/portrait/`), as the bake
+  writes them (manifest v1, in the cassie.sh and carrie.sh living-portraits
+  doc). Every image and clip is opaque on the persona's backdrop.
+- After first paint, once the figure is near the viewport and the browser is
+  idle, the script fetches the manifest and the blink and pose-grid atlases
+  (density 2 when `devicePixelRatio` is above 1, else 1). Over the `img` (which
+  keeps its place in the layout and stays the still) it puts a `video` for the
+  action clips (idle loop, intro, poke, idles; H.264, 2x only) and a `canvas`
+  for the blink and pose-grid crops. Clips are fetched one at a time, as they
+  are needed. The video shows once a clip's first frame is up and hides when
+  it ends (its last frame is rest, the same as the still).
+- Idles, pokes and blinks start only at the end of an idle pass. Following the
+  cursor holds there too: the idle pauses on rest, the grid runs, and the idle
+  resumes after she recentres.
+- If a clip fails to load or play (iOS Low Power Mode refuses autoplay), clips
+  are dropped and she stays on the still with the grid and blinks.
+- It pauses when the tab is hidden or the portrait is off screen, and picks up
+  where it stopped. A touch tap pokes, or looks toward the tap while the poke
+  cools down.
+- The `img` keeps its `alt`; the video and canvas are `aria-hidden`.
+- Give the figure a size through the `img` (or CSS); the video and canvas follow it.
+
+CSP: `script-src 'self'` for the scripts, `connect-src 'self'` for the
+manifest, `img-src 'self'` for the atlases and `media-src 'self'` for the clips.
+No inline script or style (the player sets video attributes from JS and toggles
+classes from `portrait.css`), so nothing else changes.
+
+To use it on a site: copy `v1/` as above (the demo folder can stay out), add
+the markup, and copy the bake's `portrait/` folder into `public/`. The demo
+page `portrait-demo/index.html` is a working example. To rebuild its art, run
+`uv run --with pillow python tools/portrait_demo.py` from the repo root.
 
 ## The studio ident
 

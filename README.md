@@ -14,6 +14,15 @@ guide (`VOICE.md`). bad.llc loads it like any other site would; cassie.sh and
 carrie.sh copy the folder. Its own README covers using it and when a change
 needs a `v2/`. Epic: SLRM-1881.
 
+## Tests
+
+The living portrait player has tests (`node --test`, no dependencies, Node 20 or newer). From the repo root:
+
+    node --test tests/
+
+They cover the state machine (clip commands, the idle seam, blink and pose grid), the manifest checks
+and the 6 KB gzip budget.
+
 Sections sit one `--bo-section` apart, set in `style.css` rather than the frozen kit: 3.5rem on a phone,
 6rem on a desktop, the same on all three sites (SLRM-1953). `tests/test_spacing.py` loads the page in
 headless Chromium and WebKit at 375, 390, 768, 1280 and 1440px and fails when the visible gap between
