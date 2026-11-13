@@ -53,7 +53,11 @@ def browser_run(pw, engine, url, size, mode, out):
     errors, failed, third = [], [], set()
     page.on("console", lambda m: m.type == "error" and errors.append(m.text))
     page.on("pageerror", lambda e: errors.append(str(e)))
-    page.on("requestfailed", lambda r: failed.append(r.url))
+    # The browser cancels a media request it no longer needs (the studio ident video when
+    # JS is off or motion is reduced), and WebKit does not always label it as media: a
+    # cancelled video or audio file is not a failure. A real 4xx or 5xx never reaches here.
+    page.on("requestfailed", lambda r: r.url.lower().endswith((".webm", ".mp4", ".mp3", ".ogg"))
+            or failed.append(r.url))
     page.on("request", lambda r: (urlparse(r.url).hostname not in (host, None)
                                   and not r.url.startswith("data:") and third.add(r.url)))
     page.goto(url, wait_until="load", timeout=30000)
