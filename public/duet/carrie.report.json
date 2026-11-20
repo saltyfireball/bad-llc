@@ -2,7 +2,7 @@
  "persona": "carrie",
  "settings": {
   "budget": 1572864,
-  "crf": 24,
+  "crf": 27,
   "preset": "veryslow",
   "clip_fps": 24,
   "blink_fps": 24,
@@ -15,8 +15,8 @@
   "clip_tolerance": 2.5
  },
  "shirt_only": false,
- "render_seconds": 86.13,
- "bytes": 1159378,
+ "render_seconds": 0.01,
+ "bytes": 1243908,
  "budget": 1572864,
  "within_budget": true,
  "loops": {
@@ -36,7 +36,7 @@
   },
   "roll": {
    "first": 0.0,
-   "end": 0.0,
+   "end": 0.0001,
    "frames": 102,
    "fps": 24,
    "ok": true
@@ -50,7 +50,7 @@
   },
   "stare-back": {
    "first": 0.0,
-   "end": 0.0,
+   "end": 0.0006,
    "frames": 97,
    "fps": 24,
    "ok": true
@@ -64,7 +64,7 @@
   },
   "catch": {
    "first": 0.0,
-   "end": 0.0,
+   "end": 0.0001,
    "frames": 116,
    "fps": 24,
    "ok": true
@@ -80,52 +80,52 @@
  "loops_ok": true,
  "clips": {
   "idle": {
-   "first": 1.2919,
-   "last": 1.2913,
+   "first": 2.057,
+   "last": 2.0551,
    "frames": 13,
-   "bytes": 18486,
+   "bytes": 20733,
    "ok": true
   },
   "glare": {
-   "first": 1.3885,
-   "last": 1.3041,
+   "first": 2.3297,
+   "last": 2.0343,
    "frames": 102,
-   "bytes": 162029,
+   "bytes": 171251,
    "ok": true
   },
   "roll": {
-   "first": 1.2716,
-   "last": 1.3147,
+   "first": 1.873,
+   "last": 2.0803,
    "frames": 102,
-   "bytes": 154241,
+   "bytes": 159990,
    "ok": true
   },
   "stare-first": {
-   "first": 1.4115,
-   "last": 1.3059,
+   "first": 2.3508,
+   "last": 2.0032,
    "frames": 97,
-   "bytes": 180823,
+   "bytes": 195107,
    "ok": true
   },
   "stare-back": {
-   "first": 1.3167,
-   "last": 1.3367,
+   "first": 2.0372,
+   "last": 2.1502,
    "frames": 97,
-   "bytes": 174713,
+   "bytes": 183318,
    "ok": true
   },
   "watch": {
-   "first": 1.3511,
-   "last": 1.3053,
+   "first": 2.1642,
+   "last": 2.0314,
    "frames": 116,
-   "bytes": 179922,
+   "bytes": 192369,
    "ok": true
   },
   "catch": {
-   "first": 1.2702,
-   "last": 1.2995,
+   "first": 1.8554,
+   "last": 2.004,
    "frames": 116,
-   "bytes": 134479,
+   "bytes": 141282,
    "ok": true
   }
  },
@@ -135,64 +135,64 @@
    "frames": 13,
    "rest_frames": null,
    "size": "480x600",
-   "bytes": 18486
+   "bytes": 20733
   },
   "clip glare": {
    "frames": 102,
    "rest_frames": null,
    "size": "480x600",
-   "bytes": 162029
+   "bytes": 171251
   },
   "clip roll": {
    "frames": 102,
    "rest_frames": null,
    "size": "480x600",
-   "bytes": 154241
+   "bytes": 159990
   },
   "clip stare-first": {
    "frames": 97,
    "rest_frames": null,
    "size": "480x600",
-   "bytes": 180823
+   "bytes": 195107
   },
   "clip stare-back": {
    "frames": 97,
    "rest_frames": null,
    "size": "480x600",
-   "bytes": 174713
+   "bytes": 183318
   },
   "clip watch": {
    "frames": 116,
    "rest_frames": null,
    "size": "480x600",
-   "bytes": 179922
+   "bytes": 192369
   },
   "clip catch": {
    "frames": 116,
    "rest_frames": null,
    "size": "480x600",
-   "bytes": 134479
+   "bytes": 141282
   },
   "blink atlas": {
    "frames": 7,
    "rest_frames": 1,
-   "size": "98x200",
-   "bytes": 29656
+   "size": "108x300",
+   "bytes": 35186
   },
   "grid atlas": {
    "frames": 30,
    "rest_frames": 1,
-   "size": "504x143",
-   "bytes": 103664
+   "size": "108x1065",
+   "bytes": 111122
   },
   "still": {
    "frames": null,
    "rest_frames": null,
    "size": "240x300",
-   "bytes": 19734
+   "bytes": 31918
   }
  },
  "backdrop": "#121213",
- "total_seconds": 91.4,
+ "total_seconds": 4.97,
  "ok": true
 }
