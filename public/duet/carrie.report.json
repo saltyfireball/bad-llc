@@ -16,7 +16,7 @@
  },
  "shirt_only": false,
  "render_seconds": 0.01,
- "bytes": 1259785,
+ "bytes": 1258124,
  "budget": 1572864,
  "within_budget": true,
  "loops": {
@@ -80,52 +80,52 @@
  "loops_ok": true,
  "clips": {
   "idle": {
-   "first": 1.6008,
-   "last": 1.6006,
+   "first": 1.6064,
+   "last": 1.6054,
    "frames": 13,
-   "bytes": 21326,
+   "bytes": 21410,
    "ok": true
   },
   "glare": {
-   "first": 1.7474,
-   "last": 1.5948,
+   "first": 1.7473,
+   "last": 1.5952,
    "frames": 102,
-   "bytes": 184243,
+   "bytes": 184336,
    "ok": true
   },
   "roll": {
-   "first": 1.5028,
-   "last": 1.6292,
+   "first": 1.4937,
+   "last": 1.6298,
    "frames": 102,
-   "bytes": 166643,
+   "bytes": 166707,
    "ok": true
   },
   "stare-first": {
-   "first": 1.7618,
-   "last": 1.5929,
+   "first": 1.7516,
+   "last": 1.5834,
    "frames": 97,
-   "bytes": 208412,
+   "bytes": 209011,
    "ok": true
   },
   "stare-back": {
-   "first": 1.563,
-   "last": 1.6761,
+   "first": 1.5662,
+   "last": 1.6741,
    "frames": 97,
-   "bytes": 194267,
+   "bytes": 192383,
    "ok": true
   },
   "watch": {
-   "first": 1.6698,
-   "last": 1.6038,
+   "first": 1.6693,
+   "last": 1.6011,
    "frames": 116,
-   "bytes": 205151,
+   "bytes": 204961,
    "ok": true
   },
   "catch": {
-   "first": 1.4919,
-   "last": 1.5831,
+   "first": 1.4775,
+   "last": 1.5873,
    "frames": 116,
-   "bytes": 147260,
+   "bytes": 146809,
    "ok": true
   }
  },
@@ -135,64 +135,64 @@
    "frames": 13,
    "rest_frames": null,
    "size": "480x600",
-   "bytes": 21326
+   "bytes": 21410
   },
   "clip glare": {
    "frames": 102,
    "rest_frames": null,
    "size": "480x600",
-   "bytes": 184243
+   "bytes": 184336
   },
   "clip roll": {
    "frames": 102,
    "rest_frames": null,
    "size": "480x600",
-   "bytes": 166643
+   "bytes": 166707
   },
   "clip stare-first": {
    "frames": 97,
    "rest_frames": null,
    "size": "480x600",
-   "bytes": 208412
+   "bytes": 209011
   },
   "clip stare-back": {
    "frames": 97,
    "rest_frames": null,
    "size": "480x600",
-   "bytes": 194267
+   "bytes": 192383
   },
   "clip watch": {
    "frames": 116,
    "rest_frames": null,
    "size": "480x600",
-   "bytes": 205151
+   "bytes": 204961
   },
   "clip catch": {
    "frames": 116,
    "rest_frames": null,
    "size": "480x600",
-   "bytes": 147260
+   "bytes": 146809
   },
   "blink atlas": {
    "frames": 7,
    "rest_frames": 1,
    "size": "90x216",
-   "bytes": 24738
+   "bytes": 24726
   },
   "grid atlas": {
    "frames": 30,
    "rest_frames": 1,
    "size": "90x794",
-   "bytes": 78736
+   "bytes": 78774
   },
   "still": {
    "frames": null,
    "rest_frames": null,
    "size": "240x300",
-   "bytes": 27406
+   "bytes": 27404
   }
  },
  "backdrop": "#121213",
- "total_seconds": 11.85,
+ "total_seconds": 5.1,
  "ok": true
 }
