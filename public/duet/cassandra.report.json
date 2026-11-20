@@ -2,7 +2,7 @@
  "persona": "cassandra",
  "settings": {
   "budget": 1572864,
-  "crf": 28,
+  "crf": 27,
   "preset": "veryslow",
   "clip_fps": 24,
   "blink_fps": 24,
@@ -16,7 +16,7 @@
  },
  "shirt_only": false,
  "render_seconds": 0.01,
- "bytes": 1203850,
+ "bytes": 1336776,
  "budget": 1572864,
  "within_budget": true,
  "loops": {
@@ -80,52 +80,52 @@
  "loops_ok": true,
  "clips": {
   "idle": {
-   "first": 1.3654,
-   "last": 1.365,
+   "first": 1.3202,
+   "last": 1.3197,
    "frames": 13,
-   "bytes": 24373,
+   "bytes": 26508,
    "ok": true
   },
   "glare": {
-   "first": 1.5053,
-   "last": 1.3295,
+   "first": 1.4469,
+   "last": 1.2904,
    "frames": 102,
-   "bytes": 169400,
+   "bytes": 192798,
    "ok": true
   },
   "roll": {
-   "first": 1.2617,
-   "last": 1.3246,
+   "first": 1.2255,
+   "last": 1.2816,
    "frames": 102,
-   "bytes": 147677,
+   "bytes": 166972,
    "ok": true
   },
   "stare-first": {
-   "first": 1.5525,
-   "last": 1.3393,
+   "first": 1.4651,
+   "last": 1.2928,
    "frames": 97,
-   "bytes": 184970,
+   "bytes": 210060,
    "ok": true
   },
   "stare-back": {
-   "first": 1.361,
-   "last": 1.4107,
+   "first": 1.3048,
+   "last": 1.353,
    "frames": 97,
-   "bytes": 173232,
+   "bytes": 196646,
    "ok": true
   },
   "watch": {
-   "first": 1.4495,
-   "last": 1.3292,
+   "first": 1.3893,
+   "last": 1.2887,
    "frames": 116,
-   "bytes": 178770,
+   "bytes": 202411,
    "ok": true
   },
   "catch": {
-   "first": 1.2454,
-   "last": 1.3072,
+   "first": 1.2127,
+   "last": 1.2665,
    "frames": 116,
-   "bytes": 128615,
+   "bytes": 144568,
    "ok": true
   }
  },
@@ -135,43 +135,43 @@
    "frames": 13,
    "rest_frames": null,
    "size": "700x840",
-   "bytes": 24373
+   "bytes": 26508
   },
   "clip glare": {
    "frames": 102,
    "rest_frames": null,
    "size": "700x840",
-   "bytes": 169400
+   "bytes": 192798
   },
   "clip roll": {
    "frames": 102,
    "rest_frames": null,
    "size": "700x840",
-   "bytes": 147677
+   "bytes": 166972
   },
   "clip stare-first": {
    "frames": 97,
    "rest_frames": null,
    "size": "700x840",
-   "bytes": 184970
+   "bytes": 210060
   },
   "clip stare-back": {
    "frames": 97,
    "rest_frames": null,
    "size": "700x840",
-   "bytes": 173232
+   "bytes": 196646
   },
   "clip watch": {
    "frames": 116,
    "rest_frames": null,
    "size": "700x840",
-   "bytes": 178770
+   "bytes": 202411
   },
   "clip catch": {
    "frames": 116,
    "rest_frames": null,
    "size": "700x840",
-   "bytes": 128615
+   "bytes": 144568
   },
   "blink atlas": {
    "frames": 7,
@@ -193,6 +193,6 @@
   }
  },
  "backdrop": "#121213",
- "total_seconds": 7.94,
+ "total_seconds": 18.0,
  "ok": true
 }
