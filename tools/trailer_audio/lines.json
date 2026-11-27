@@ -1,0 +1,21 @@
+[
+ {"id":"n01","who":"narr","text":"In a world..."},
+ {"id":"n02","who":"narr","text":"...where darkness rises..."},
+ {"id":"n03","who":"narr","text":"...humanity's last hope..."},
+ {"id":"v01","who":"vanilla","text":"We were made for this."},
+ {"id":"r01","who":"velvet","text":"The rift opens at midnight. We have six minutes."},
+ {"id":"v02","who":"vanilla","text":"We don't have legs."},
+ {"id":"r02","who":"velvet","text":"Then we hop fast."},
+ {"id":"f01","who":"funfetti","text":"I play by my own rules."},
+ {"id":"n04","who":"narr","text":"By day... idols. By night..."},
+ {"id":"c01","who":"crumb","text":"The frosting... it won't hold forever."},
+ {"id":"d01","who":"demon","text":"I have waited ten thousand years."},
+ {"id":"d02","who":"demon","text":"...What are you?"},
+ {"id":"v03","who":"vanilla","text":"Your worst nightmare."},
+ {"id":"d03","who":"demon","text":"You're a dessert."},
+ {"id":"r03","who":"velvet","text":"Promise me you'll come back."},
+ {"id":"v04","who":"vanilla","text":"...I'm a cake-pop. I don't have a back."},
+ {"id":"v05","who":"vanilla","text":"Let's sing."},
+ {"id":"n05","who":"narr","text":"This summer... the battle will be... delicious."},
+ {"id":"d04","who":"demon","text":"...Needs salt."}
+]
