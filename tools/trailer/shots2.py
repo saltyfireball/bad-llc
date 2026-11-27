@@ -146,7 +146,7 @@ def funfetti(sc, preview):
     eyes_state(p, a, 1.0)
     # the blast goes off behind her at 0.9 s; she does not turn around
     t0 = secs(0.9)
-    explosion(t0, Vector((0.5, 20.0, 1.5)), 5.0, 26, strength=30)
+    explosion(t0, Vector((0.5, 20.0, 1.5)), 5.5, 26, strength=40)
     end = hop(p, secs(1.4), [(0.0, 5.4), (0.2, 3.8), (0.0, 2.4)], air=11, rest=8, height=0.28)
     landings = [secs(1.4) + 8 * (i + 1) + 11 * (i + 1) + 3 * i for i in range(3)]
     sc.frame_set(a)
@@ -168,11 +168,11 @@ def funfetti(sc, preview):
 def stage(sc, preview):
     """0:48 day job: a K-pop stage and a sea of lightsticks."""
     a, b = 1, T.frames("stage")
-    C.look((a, b), preview, haze=0.01, world=(0.003, 0.002, 0.006), glare=0.7, aniso=0.6)
+    C.look((a, b), preview, haze=0.006, world=(0.002, 0.001, 0.004), glare=0.7, aniso=0.6, exposure=-0.2)
     C.floor(200, (0.01, 0.01, 0.014), 0.15)
     # stage: a glossy deck, an LED wall
     prim("cube", "Deck", (0, 9, 0.4), (6.5, 3.6, 0.4), mat("Deck", (0.02, 0.02, 0.03), 0.12, coat=0.4), smooth=False)
-    wall = mat("LED", (0.01, 0.01, 0.01), 0.3, emit=(1.0, 0.25, 0.7), estr=0.16)
+    wall = mat("LED", (0.01, 0.01, 0.01), 0.3, emit=(1.0, 0.1, 0.5), estr=0.07)
     prim("plane", "LEDWall", (0, 12.8, 5.0), (7.5, 4.6, 1), wall, rot=(math.pi / 2, 0, 0), smooth=False)
     nd = wall.node_tree.nodes["Principled BSDF"].inputs["Emission Color"]
     for f, col in ((a, (1.0, 0.25, 0.7)), (secs(1.5), (0.3, 0.5, 1.0)), (secs(3), (1.0, 0.5, 0.9)), (b, (0.6, 0.3, 1.0))):

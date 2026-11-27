@@ -530,15 +530,47 @@ def floor(size=60, color=(0.02, 0.018, 0.018), rough=0.6, z=0.0, m=None):
     return prim("plane", "Floor", (0, 0, z), (size, size, 1), m or mat("Floor", color, rough), smooth=False)
 
 
+def fire_mat(name, strength=5.0, scale=3.0):
+    """Billowing fire: noise through a dark-red -> orange -> hot-yellow ramp, emitted."""
+    m = bpy.data.materials.new(name)
+    m.use_nodes = True
+    nt = m.node_tree
+    for n in list(nt.nodes):
+        if n.type != "OUTPUT_MATERIAL":
+            nt.nodes.remove(n)
+    out = [n for n in nt.nodes if n.type == "OUTPUT_MATERIAL"][0]
+    tc = nt.nodes.new("ShaderNodeTexCoord")
+    nz = nt.nodes.new("ShaderNodeTexNoise")
+    nz.inputs["Scale"].default_value = scale
+    nz.inputs["Detail"].default_value = 8.0
+    nz.inputs["Roughness"].default_value = 0.65
+    nt.links.new(tc.outputs["Object"], nz.inputs["Vector"])
+    ramp = nt.nodes.new("ShaderNodeValToRGB")
+    cr = ramp.color_ramp
+    cr.elements[0].position = 0.35
+    cr.elements[0].color = (0.25, 0.015, 0.0, 1)
+    cr.elements[1].position = 0.72
+    cr.elements[1].color = (1.0, 0.55, 0.08, 1)
+    e = cr.elements.new(0.9)
+    e.color = (1.0, 0.9, 0.5, 1)
+    nt.links.new(nz.outputs["Fac"], ramp.inputs["Fac"])
+    em = nt.nodes.new("ShaderNodeEmission")
+    em.inputs["Strength"].default_value = strength
+    nt.links.new(ramp.outputs["Color"], em.inputs["Color"])
+    nt.links.new(em.outputs[0], out.inputs["Surface"])
+    return m
+
+
 def explosion(f0, loc, size=4.0, dur=26, seed=5, strength=40):
-    """A fireball: noisy emissive spheres that bloom and fade, a flash light, debris."""
+    """A fireball: billowing noisy fire that blooms and fades, dark smoke, a flash light, debris."""
     r = random.Random(seed)
-    core = mat("FireCore", (1, 0.5, 0.1), 0.5, emit=(1.0, 0.45, 0.08), estr=strength)
-    smoke = mat("FireSmoke", (0.02, 0.015, 0.015), 0.9)
+    core = fire_mat("FireCore%d" % seed, max(2.0, strength * 0.12), 2.2)
+    smoke = mat("FireSmoke", (0.012, 0.01, 0.01), 0.95)
     parts = []
-    for i in range(7):
-        d = Vector((r.uniform(-1, 1), r.uniform(-.6, .6), r.uniform(0.2, 1.0))) * size * 0.25
-        o = prim("sphere", "Fire%d" % i, loc + d, (0.01,) * 3, core if i < 5 else smoke, seg=16)
+    for i in range(9):
+        d = Vector((r.uniform(-1, 1), r.uniform(-.6, .6), r.uniform(0.1, 1.0))) * size * 0.3
+        o = prim("sphere", "Fire%d" % i, loc + d, (0.01,) * 3, core if i < 6 else smoke, seg=24)
+        o.rotation_euler = (r.random() * 6, r.random() * 6, r.random() * 6)
         parts.append((o, d))
     for o, d in parts:
         for f, s, p in ((f0 - 1, 0.01, 0.0), (f0 + 4, size * r.uniform(0.5, 0.8), 0.6), (f0 + dur, size * r.uniform(0.7, 1.1), 1.0), (f0 + dur + 16, 0.01, 1.2)):
@@ -546,8 +578,8 @@ def explosion(f0, loc, size=4.0, dur=26, seed=5, strength=40):
             o.location = Vector(loc) + d * (1 + p * 1.6)
             o.keyframe_insert("scale", frame=f)
             o.keyframe_insert("location", frame=f)
-    fl = point("FireFlash", Vector(loc) + Vector((0, -1, 1)), 0.0, (1, 0.55, 0.2), radius=0.6)
-    for f, e in ((f0 - 1, 0), (f0 + 1, 90000), (f0 + 10, 30000), (f0 + dur + 20, 0)):
+    fl = point("FireFlash", Vector(loc) + Vector((0, -1, 1)), 0.0, (1, 0.55, 0.2), radius=0.6, shadow=False)
+    for f, e in ((f0 - 1, 0), (f0 + 1, 40000), (f0 + 10, 12000), (f0 + dur + 20, 0)):
         fl.data.energy = e
         fl.data.keyframe_insert("energy", frame=f)
     # debris

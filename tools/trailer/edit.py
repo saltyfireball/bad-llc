@@ -70,10 +70,8 @@ def name_png(path, name, role):
     im = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     d = ImageDraw.Draw(im)
     f1, f2 = font(120), font(40)
-    w1 = text_width(d, name, f1, 18)
-    spaced(d, ((W - w1) / 2, H - 330), name, f1, BONE + (255,), 18)
-    w2 = text_width(d, role, f2, 16)
-    spaced(d, ((W - w2) / 2, H - 190), role, f2, (200, 160, 90, 255), 16)
+    spaced(d, (150, H - 360), name, f1, BONE + (255,), 18)
+    spaced(d, (156, H - 215), role, f2, (200, 160, 90, 255), 16)
     im.save(path)
 
 
@@ -153,8 +151,8 @@ def main():
             f.write("file '%s'\n" % s)
     silent = os.path.join(work, "video.mp4")
     run(["ffmpeg", "-loglevel", "error", "-y", "-f", "concat", "-safe", "0", "-i", lst, "-c", "copy", silent])
-    run(["ffmpeg", "-loglevel", "error", "-y", "-i", silent, "-i", mix, "-map", "0:v", "-map", "1:a", "-c:v", "copy",
-         "-c:a", "aac", "-b:a", "256k", "-shortest", "-movflags", "+faststart", out])
+    run(["ffmpeg", "-loglevel", "error", "-y", "-i", silent, "-i", mix, "-map", "0:v", "-map", "1:a", "-c:v", "libx264", "-crf", "21", "-preset", "medium", "-pix_fmt", "yuv420p",
+         "-af", "loudnorm=I=-14:TP=-1.5:LRA=14", "-ar", "48000", "-c:a", "aac", "-b:a", "256k", "-shortest", "-movflags", "+faststart", out])
     print("wrote", out)
 
 

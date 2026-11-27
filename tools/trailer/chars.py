@@ -384,7 +384,7 @@ def make_demon(loc=(0, 0, 0), scale=1.0, yaw=0.0, glow=(1.0, 0.3, 0.05), eye=(1.
     d.root = empty(name, loc)
     d.root.rotation_euler[2] = yaw
     d.root.scale = (scale,) * 3
-    skin = lava_mat(name + "_skin", (0.018, 0.009, 0.01), glow, scale=0.9, strength=2.6)
+    skin = lava_mat(name + "_skin", (0.018, 0.009, 0.01), glow, scale=0.9, strength=2.0)
     skin2 = lava_mat(name + "_skin2", (0.03, 0.012, 0.012), glow, scale=1.6, strength=2.0)
     bone = mat(name + "_horn", (0.08, 0.06, 0.05), 0.35, coat=0.3, bump=0.2, bump_scale=8)
     tooth = mat(name + "_tooth", (0.55, 0.5, 0.4), 0.3)
@@ -440,12 +440,15 @@ def make_demon(loc=(0, 0, 0), scale=1.0, yaw=0.0, glow=(1.0, 0.3, 0.05), eye=(1.
         el = empty(name + "_el" + side, (0, -0.1, -3.2), sh)
         P("_elbow" + side, (0, 0, 0), (0.8, 0.8, 0.8), skin, el)
         tube(name + "_fa" + side, [(0, 0, 0), (0, -0.2, -1.6), (0, -0.4, -3.2)], [0.8, 0.8, 0.75], skin2).parent = el
+        for k in range(3):
+            prim("cone", name + "_fspk%s%d" % (side, k), (s * 0.7, -0.15, -0.8 - k * 0.95), (0.16, 0.16, 0.7 - 0.12 * k), bone, el, seg=6, rot=(0, s * 1.25, 0))
         hand = empty(name + "_hand" + side, (0, -0.4, -3.2), el)
         P("_palm" + side, (0, -0.1, -0.2), (0.9, 0.45, 0.8), skin2, hand)
         fingers = []
         for i, fx in enumerate((-0.6, -0.2, 0.2, 0.6)):
             fp = empty(name + "_fp%s%d" % (side, i), (fx, -0.1, -0.8), hand)
             tube(name + "_fg%s%d" % (side, i), [(0, 0, 0), (0, 0, -0.5), (0, 0, -1.0)], [0.2, 0.17, 0.12], skin2, ring=6).parent = fp
+            prim("cone", name + "_claw%s%d" % (side, i), (0, 0, -1.2), (0.09, 0.09, 0.32), bone, fp, seg=6, rot=(math.pi, 0, 0))
             fingers.append(fp)
         th = empty(name + "_th" + side, (s * 0.85, -0.2, -0.3), hand)
         tube(name + "_thm" + side, [(0, 0, 0), (s * 0.3, -0.1, -0.4), (s * 0.5, -0.2, -0.8)], [0.24, 0.2, 0.14], skin2, ring=6).parent = th
