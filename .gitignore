@@ -3,3 +3,6 @@
 tools/ident/out/
 tools/ident/*.blend
 tools/ident/*.blend1
+tools/trailer/kif-render/
+tools/trailer_audio/raw/
+tools/trailer/out/
