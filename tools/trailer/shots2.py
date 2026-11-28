@@ -89,7 +89,7 @@ def control_room(a, b, seed=1):
             prim("plane", "Mon%d_%d" % (i, j), (-4.4 + i * 1.1, 4.4, 0.9 + j * 0.78), (0.44, 0.28, 1), m, rot=(math.pi / 2, 0, 0), smooth=False)
             nd = m.node_tree.nodes["Principled BSDF"].inputs["Emission Strength"]
             for f in range(a, b + 1, 5):
-                nd.default_value = r.uniform(0.03, 0.3)
+                nd.default_value = r.uniform(0.015, 0.1)
                 nd.keyframe_insert("default_value", frame=f)
             mons.append(m)
     # keyboard
@@ -157,10 +157,12 @@ def funfetti(sc, preview):
     for f, e in ((a, 0), (t0, 0), (t0 + 2, 2500), (t0 + 14, 600), (b, 250)):
         L.data.energy = e
         L.data.keyframe_insert("energy", frame=f)
-    area("Face", (-0.8, 0.8, 0.9), (0, 5, 0.7), 40, (1.0, 0.65, 0.4), 1.2)
+    area("Face", (-0.8, 0.8, 0.9), (0, 5, 0.7), 120, (1.0, 0.65, 0.4), 1.2)
     ash(a, b, n=200, box=(-8, 8, 0, 18, 0.2, 7), seed=7, drift=(-0.5, -1.2, 0.9), size=0.03, glow=2.5, step=4)
     cam = Cam(lens=40, fstop=2.6)
     cam.move([(a, (0.5, 3.6, 0.35), (0, 7.0, 0.85)), (b, (0.3, -2.0, 0.45), (0, 2.5, 0.75))])
+    import fire as FX
+    FX.shake(cam, t0, t0 + 50, 0.14, seed=1)
     return (a, b)
 
 
@@ -172,7 +174,7 @@ def stage(sc, preview):
     C.floor(200, (0.01, 0.01, 0.014), 0.15)
     # stage: a glossy deck, an LED wall
     prim("cube", "Deck", (0, 9, 0.4), (6.5, 3.6, 0.4), mat("Deck", (0.02, 0.02, 0.03), 0.12, coat=0.4), smooth=False)
-    wall = mat("LED", (0.01, 0.01, 0.01), 0.3, emit=(1.0, 0.1, 0.5), estr=0.07)
+    wall = mat("LED", (0.01, 0.01, 0.01), 0.3, emit=(1.0, 0.1, 0.5), estr=0.04)
     prim("plane", "LEDWall", (0, 12.8, 5.0), (7.5, 4.6, 1), wall, rot=(math.pi / 2, 0, 0), smooth=False)
     nd = wall.node_tree.nodes["Principled BSDF"].inputs["Emission Color"]
     for f, col in ((a, (1.0, 0.25, 0.7)), (secs(1.5), (0.3, 0.5, 1.0)), (secs(3), (1.0, 0.5, 0.9)), (b, (0.6, 0.3, 1.0))):

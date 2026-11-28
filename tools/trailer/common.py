@@ -61,6 +61,11 @@ def look(frames, preview=False, haze=0.012, world=(0.004, 0.0045, 0.006), glare=
         pass
     e.use_volumetric_shadows = True
     e.volumetric_tile_size = "8" if preview else "4"
+    try:
+        e.volumetric_end = 220.0
+        e.volumetric_samples = 48 if preview else 96
+    except Exception:
+        pass
     sc.render.film_transparent = False
     vs = sc.view_settings
     vs.view_transform = "AgX"
@@ -562,43 +567,9 @@ def fire_mat(name, strength=5.0, scale=3.0):
 
 
 def explosion(f0, loc, size=4.0, dur=26, seed=5, strength=40):
-    """A fireball: billowing noisy fire that blooms and fades, dark smoke, a flash light, debris."""
-    r = random.Random(seed)
-    core = fire_mat("FireCore%d" % seed, max(2.0, strength * 0.12), 2.2)
-    smoke = mat("FireSmoke", (0.012, 0.01, 0.01), 0.95)
-    parts = []
-    for i in range(9):
-        d = Vector((r.uniform(-1, 1), r.uniform(-.6, .6), r.uniform(0.1, 1.0))) * size * 0.3
-        o = prim("sphere", "Fire%d" % i, loc + d, (0.01,) * 3, core if i < 6 else smoke, seg=24)
-        o.rotation_euler = (r.random() * 6, r.random() * 6, r.random() * 6)
-        parts.append((o, d))
-    for o, d in parts:
-        for f, s, p in ((f0 - 1, 0.01, 0.0), (f0 + 4, size * r.uniform(0.5, 0.8), 0.6), (f0 + dur, size * r.uniform(0.7, 1.1), 1.0), (f0 + dur + 16, 0.01, 1.2)):
-            o.scale = (s, s, s)
-            o.location = Vector(loc) + d * (1 + p * 1.6)
-            o.keyframe_insert("scale", frame=f)
-            o.keyframe_insert("location", frame=f)
-    fl = point("FireFlash", Vector(loc) + Vector((0, -1, 1)), 0.0, (1, 0.55, 0.2), radius=0.6, shadow=False)
-    for f, e in ((f0 - 1, 0), (f0 + 1, 40000), (f0 + 10, 12000), (f0 + dur + 20, 0)):
-        fl.data.energy = e
-        fl.data.keyframe_insert("energy", frame=f)
-    # debris
-    for i in range(34):
-        s = r.uniform(0.04, 0.14)
-        o = prim("cube", "Debris%d" % i, loc, (0.0,) * 3, mat("Debris%d" % i, (0.03, 0.025, 0.02), 0.8), seg=4)
-        v = Vector((r.uniform(-1, 1), r.uniform(-0.7, 0.7), r.uniform(0.6, 1.4))) * r.uniform(3, 8)
-        for k in range(0, 40, 3):
-            t = k / FPS
-            p = Vector(loc) + v * t + Vector((0, 0, -4.9 * t * t))
-            p.z = max(p.z, s)
-            o.location = p
-            o.scale = (s, s, s) if k else (0.001,) * 3
-            o.rotation_euler = (t * 7 * (i % 3 + 1), t * 5, t * 3)
-            o.keyframe_insert("location", frame=f0 + k)
-            o.keyframe_insert("scale", frame=f0 + k)
-            o.keyframe_insert("rotation_euler", frame=f0 + k)
-        lin(o)
-    return fl
+    """A fireball: volumetric fire that blooms and rolls into smoke, a flash light, debris, embers."""
+    import fire
+    return fire.fireball(f0, Vector(loc), size, dur, seed, flash=strength * 1000)
 
 
 def sparks_text(*a, **k):
@@ -672,17 +643,13 @@ def skyline(seed=1, y0=45, depth=50, width=120, n=46, fires=14, windows=True, fl
         if windows:
             for k in range(r.randint(0, 6)):
                 prim("cube", "Win", (x + r.uniform(-w / 2, w / 2), y - w / 2 - 0.05, r.uniform(2, h - 1)), (0.35, 0.05, 0.5), win, smooth=False)
+    import fire
     flames = []
-    for i in range(fires):
+    for i in range(min(fires, 9)):
         x = r.uniform(-width / 2, width / 2)
         y = y0 + r.uniform(-4, depth * 0.8)
-        h = r.uniform(5, 14)
-        f = prim("cone", "Blaze%d" % i, (x, y - 3, h * 0.5), (r.uniform(2, 4), r.uniform(2, 4), h * 0.5), fire, seg=7)
-        for fr in range(flick[0], flick[1] + 1, 4):
-            s = 1 + 0.18 * math.sin(fr * 0.4 + i) + 0.1 * r.random()
-            f.scale = (f.scale[0], f.scale[1], h * 0.5 * s)
-            f.keyframe_insert("scale", frame=fr)
-        flames.append(f)
+        h = r.uniform(6, 14)
+        fire.flame((x, y - 3, 0.0), h, h * 0.45, seed=i + 1, light=False, smoke=(i % 2 == 0), haze=False, name="Blaze")
     return flames
 
 
@@ -705,18 +672,13 @@ def avenue(seed=2, y0=8, y1=90, half=9.0, hmax=28, fires=16, flick=(1, 200)):
                 prim("cube", "AveW", (x - side * (w / 2 + 0.02), y + r.uniform(0.5, w - 0.5), zz), (0.05, 0.4, 0.55), win, smooth=False)
             i += 1
         y += r.uniform(6, 11)
+    import fire
     flames = []
-    for k in range(fires):
+    for k in range(min(fires, 8)):
         side = r.choice((-1, 1))
         yy = r.uniform(y0 + 10, y1)
-        h = r.uniform(4, 11)
-        f = prim("cone", "AveF%d" % k, (side * r.uniform(half + 1, half + 9), yy, r.uniform(10, 22)), (r.uniform(1.2, 2.5), r.uniform(1.2, 2.5), h / 2), fire, seg=7)
-        zc = f.location.z
-        for fr in range(flick[0], flick[1] + 1, 4):
-            sc_ = 1 + 0.2 * math.sin(fr * 0.5 + k) + 0.12 * r.random()
-            f.scale.z = h / 2 * sc_
-            f.keyframe_insert("scale", frame=fr)
-        lt = point("AveL%d" % k, f.location + Vector((0, -3, 2)), 3000, (1.0, 0.3, 0.07), radius=1.0, shadow=False)
-        flicker(lt, flick[0], flick[1], 3000, 0.35, 3, seed=k)
-        flames.append(f)
+        h = r.uniform(4, 9)
+        lt = fire.flame((side * r.uniform(half + 1, half + 9), yy, r.uniform(10, 22)), h, h * 0.45, seed=k + 20, lamp_energy=3000, smoke=True, haze=False, name="AveF")
+        C_flicker = flicker
+        C_flicker(lt, flick[0], flick[1], 3000, 0.35, 3, seed=k)
     return flames
