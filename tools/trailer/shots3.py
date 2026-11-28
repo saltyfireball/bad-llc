@@ -252,6 +252,8 @@ def fly(sc, preview):
         x = x0 + (x1 - x0) * k / N
         ks.append((f, (x * 0.55 + 0.5, 3.0, 0.9 + 0.9 * math.sin(math.pi * k / N)), (x * 0.9, 10, 0.7 + 1.0 * math.sin(math.pi * k / N))))
     cam.move(ks)
+    import fire as FX
+    FX.shake(cam, secs(0.3), secs(1.6), 0.09, seed=2)
     return (a, b)
 
 
@@ -338,16 +340,12 @@ def _hell_set(a, b, seed=2):
     hell_floor()
     C.backdrop(120, width=700, height=150, strength=1.0, falloff=0.22)
     r = random.Random(seed)
-    fire = mat("HellFire", (1, 0.3, 0.05), 0.5, emit=(1.0, 0.07, 0.01), estr=0.9)
-    for i in range(14):
+    import fire as FX
+    for i in range(10):
         x = r.choice((-1, 1)) * r.uniform(2.5, 16)
         y = r.uniform(4, 40)
-        h = r.uniform(3, 12)
-        f = prim("cone", "HellFlame%d" % i, (x, y, h / 2), (r.uniform(0.6, 1.8), r.uniform(0.6, 1.8), h / 2), fire, seg=7)
-        for fr in range(a, b + 1, 4):
-            f.scale.z = h / 2 * (1 + 0.25 * math.sin(fr * 0.45 + i) + 0.1 * r.random())
-            f.keyframe_insert("scale", frame=fr)
-        lt = point("HellL%d" % i, (x, y - 1, h * 0.4), 450 if y > 15 else 160, (1.0, 0.28, 0.06), radius=0.6, shadow=False)
+        h = r.uniform(3, 9)
+        lt = FX.flame((x, y, 0.0), h, h * 0.4, seed=i + 40, lamp_energy=450 if y > 15 else 160, smoke=y > 15, haze=y < 15, name="HellF")
         flicker(lt, a, b, lt.data.energy, 0.3, 3, seed=i)
 
 
@@ -401,7 +399,7 @@ def title(sc, preview):
             break
         except Exception:
             pass
-    icing = mat("Icing", (1.0, 0.3, 0.5), 0.15, metal=0.1, coat=1.0, emit=(1.0, 0.2, 0.4), estr=1.0)
+    icing = mat("Icing", (1.0, 0.3, 0.5), 0.15, metal=0.1, coat=1.0, emit=(1.0, 0.2, 0.4), estr=0.35)
     gold = mat("Edge", (1.0, 0.75, 0.3), 0.2, metal=1.0, emit=(1.0, 0.6, 0.2), estr=0.3)
     texts = []
     for txt, z, size in (("CAKE-POP", 2.45, 1.25), ("DEMON HUNTERS", 1.25, 0.82)):

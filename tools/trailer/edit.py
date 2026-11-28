@@ -3,8 +3,7 @@
   ~/.venvs/claude/bin/python tools/trailer/edit.py MIX.wav OUT.mp4 [--frames DIR] [--only shot,shot]
 
 Frames come from tools/trailer/kr.sh (DIR/<shot>/frame_NNNN.png). Needs ffmpeg and Pillow.
-The bad.llc ident plays straight for 8 s (the web copy in public/kit/v1/ident,
-scaled up) and one sprinkle drops through its last frame.
+The bad.llc ident plays straight for 8 s (re-rendered native 1080p) and one sprinkle drops through its last frame.
 """
 import os
 import subprocess
@@ -17,6 +16,7 @@ sys.path.insert(0, HERE)
 import timeline as T  # noqa: E402
 
 REPO = os.path.abspath(os.path.join(HERE, "..", ".."))
+IDENT_FRAMES = os.environ.get("IDENT_FRAMES", os.path.expanduser("~/.local/share/cpdh-trailer/identjob/ident"))
 IDENT = os.path.join(REPO, "public", "kit", "v1", "ident", "ident.mp4")
 FONT = "/System/Library/Fonts/Supplemental/Copperplate.ttc"
 BONE = (232, 226, 214)
@@ -103,13 +103,16 @@ def main():
         n = int(round(dur * FPS))
         seg = os.path.join(work, name + ".mp4")
         if name == "ident":
+            # native 1080p re-render of the ident (tools/ident/kif_ident.py); the web mp4 is 720p
+            nat = os.path.join(IDENT_FRAMES, "frame_%04d.png")
+            if not os.path.exists(nat % 192):
+                raise SystemExit("ident: native frames missing in " + IDENT_FRAMES)
             spr = frames_in(frames, "sprinkle", 20) if os.path.isdir(os.path.join(frames, "sprinkle")) else None
+            cmd = ["ffmpeg", "-loglevel", "error", "-y", "-framerate", "24", "-start_number", "1", "-i", nat]
             if spr:
-                run(["ffmpeg", "-loglevel", "error", "-y", "-i", IDENT, "-framerate", "24", "-start_number", "1", "-i", spr,
-                     "-filter_complex", "[0:v]scale=1920:1080:flags=lanczos,fps=24[a];[1:v]format=rgba,setpts=PTS+6.7/TB[b];[a][b]overlay=eof_action=pass:format=auto[v]",
-                     "-map", "[v]", "-frames:v", str(n), "-an"] + ENC + [seg])
-            else:
-                run(["ffmpeg", "-loglevel", "error", "-y", "-i", IDENT, "-vf", "scale=1920:1080:flags=lanczos,fps=24", "-frames:v", str(n), "-an"] + ENC + [seg])
+                cmd += ["-framerate", "24", "-start_number", "1", "-i", spr,
+                        "-filter_complex", "[1:v]format=rgba,setpts=PTS+6.7/TB[b];[0:v][b]overlay=eof_action=pass:format=auto[v]", "-map", "[v]"]
+            run(cmd + ["-frames:v", str(n), "-an"] + ENC + [seg])
         elif name in CARDS:
             png = os.path.join(work, name + ".png")
             card_png(png, CARDS[name])
@@ -152,7 +155,7 @@ def main():
     silent = os.path.join(work, "video.mp4")
     run(["ffmpeg", "-loglevel", "error", "-y", "-f", "concat", "-safe", "0", "-i", lst, "-c", "copy", silent])
     run(["ffmpeg", "-loglevel", "error", "-y", "-i", silent, "-i", mix, "-map", "0:v", "-map", "1:a", "-c:v", "libx264", "-crf", "21", "-preset", "medium", "-pix_fmt", "yuv420p",
-         "-af", "loudnorm=I=-14:TP=-1.5:LRA=14", "-ar", "48000", "-c:a", "aac", "-b:a", "256k", "-shortest", "-movflags", "+faststart", out])
+         "-c:a", "aac", "-b:a", "256k", "-shortest", "-movflags", "+faststart", out])
     print("wrote", out)
 
 
